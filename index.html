@@ -428,6 +428,398 @@ section{padding:90px 0;position:relative}
   display:block;
 }
 
+/* ===== Animated micro-demos (homepage) ===== */
+.creative--demo{
+  padding:26px 22px;
+  background:
+    radial-gradient(40% 70% at 20% 15%, rgba(16,185,129,.16), transparent 55%),
+    radial-gradient(45% 70% at 80% 20%, rgba(163,230,53,.10), transparent 55%),
+    rgba(255,255,255,.03);
+}
+.demo-grid{
+  display:grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap:22px;
+  align-items:center;
+}
+.demo-copy{padding:6px 6px 6px 10px}
+.demo-kicker{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--muted-2);
+  font-weight:700;
+}
+.demo-copy h3{
+  margin:10px 0 10px;
+  font-size:22px;
+  letter-spacing:-.02em;
+  line-height:1.18;
+}
+.demo-copy p{
+  margin:0;
+  color:var(--muted);
+  font-size:14.5px;
+  line-height:1.6;
+  max-width:52ch;
+}
+.demo-stage{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:12px 0;
+}
+.demo-phone{
+  width:272px;
+  height:560px;
+  transform:translateY(2px) rotate(-.8deg);
+}
+.demo-phone .statusbar{padding:12px 20px 4px;font-size:12px}
+.demo-phone .screen-body{padding:0 14px 14px}
+
+/* Protocol search → log demo */
+.proto-top{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 12px}
+.proto-top .title{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.proto-search{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.10);
+  color:rgba(255,255,255,.92);
+}
+.proto-search svg{width:16px;height:16px;color:rgba(196,199,218,.85)}
+.proto-q{
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  color:rgba(255,255,255,.92);
+  min-height:16px;
+}
+.proto-caret{
+  width:10px;
+  height:14px;
+  border-radius:2px;
+  background:rgba(163,230,53,.55);
+  box-shadow:0 0 12px rgba(163,230,53,.25);
+  opacity:.75;
+}
+@keyframes caret-blink{0%,48%{opacity:.75}55%,100%{opacity:.15}}
+.js .proto-caret{animation:caret-blink 900ms steps(2,end) infinite}
+
+.proto-results{
+  margin-top:10px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.16);
+  position:relative;
+}
+.proto-results::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(10,12,28,.85), transparent 18%),
+    linear-gradient(0deg, rgba(10,12,28,.92), transparent 22%);
+  opacity:.75;
+  z-index:2;
+}
+.proto-items{
+  --list-y: 0px;
+  padding:10px 10px;
+  display:grid;
+  gap:8px;
+  transform:translateY(var(--list-y));
+  transition: transform 780ms cubic-bezier(.2,.9,.2,1);
+  will-change:transform;
+}
+.proto-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+}
+.proto-item .nm{
+  font-size:12.5px;
+  font-weight:750;
+  letter-spacing:-.01em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:160px;
+}
+.proto-item .tag{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(196,199,218,.9);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.10);
+  padding:4px 8px;
+  border-radius:999px;
+  flex:none;
+}
+.proto-item .act{
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:4px 9px;
+  border-radius:999px;
+  background:rgba(163,230,53,.10);
+  border:1px solid rgba(163,230,53,.16);
+  color:#ECFCCB;
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.proto-item .act svg{width:12px;height:12px}
+.proto-item.sel{
+  border-color:rgba(163,230,53,.30);
+  background:linear-gradient(160deg,rgba(163,230,53,.10),rgba(16,185,129,.06));
+  box-shadow:0 10px 24px -18px rgba(163,230,53,.45);
+}
+.proto-item.logged .act{
+  background:rgba(74,222,128,.10);
+  border-color:rgba(74,222,128,.16);
+  color:#A7F3C7;
+}
+.proto-toast{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 12px;
+  border-radius:16px;
+  background:rgba(10,12,28,.68);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px) saturate(140%);
+  -webkit-backdrop-filter:blur(12px) saturate(140%);
+  box-shadow:0 18px 50px -26px rgba(0,0,0,.95);
+  opacity:0;
+  transform:translateY(10px) scale(.96);
+  pointer-events:none;
+  will-change:transform, opacity;
+}
+.proto-toast .l{display:flex;align-items:center;gap:10px;min-width:0}
+.proto-toast .ic{
+  width:28px;height:28px;border-radius:11px;
+  background:rgba(74,222,128,.12);
+  border:1px solid rgba(74,222,128,.18);
+  display:grid;place-items:center;
+  color:#A7F3C7;
+  flex:none;
+}
+.proto-toast .ic svg{width:16px;height:16px}
+.proto-toast .t{
+  font-size:12.8px;font-weight:800;letter-spacing:-.01em;color:rgba(255,255,255,.96);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.proto-toast .pill{
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:4px 9px;
+  border-radius:999px;
+  background:rgba(74,222,128,.10);
+  border:1px solid rgba(74,222,128,.16);
+  color:#A7F3C7;
+  flex:none;
+}
+@keyframes mini-pop{0%{opacity:0;transform:translateY(10px) scale(.96)}70%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
+.proto--logged .proto-toast{animation:mini-pop 520ms cubic-bezier(.2,.9,.2,1) both}
+.proto--logged .proto-toast{opacity:1;transform:none}
+
+/* Syringe / reconstitution calculator demo */
+.calc-top{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 12px}
+.calc-top .title{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.calc-wrap{
+  margin-top:6px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.16);
+  padding:12px;
+}
+.calc-grid{display:grid;grid-template-columns: 1fr;gap:10px}
+.wheels{display:grid;grid-template-columns: 1fr 1fr 1fr;gap:10px}
+.wheel{
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  padding:10px 10px 8px;
+  overflow:hidden;
+}
+.wheel .lbl{font-size:10px;color:rgba(196,199,218,.9);letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+.wheel-window{
+  margin-top:8px;
+  height:140px;
+  overflow:hidden;
+  position:relative;
+  border-radius:12px;
+  background:rgba(0,0,0,.16);
+  border:1px solid rgba(255,255,255,.08);
+}
+.wheel-window::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(10,12,28,.92), transparent 26%),
+    linear-gradient(0deg, rgba(10,12,28,.92), transparent 26%);
+  opacity:.78;
+  z-index:2;
+}
+.wheel-window::after{
+  content:"";
+  position:absolute;
+  left:8px; right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  height:30px;
+  border-radius:10px;
+  border:1px solid rgba(163,230,53,.20);
+  background:linear-gradient(90deg, rgba(163,230,53,.10), rgba(16,185,129,.06));
+  z-index:1;
+}
+.wheel-items{
+  --wheel-step: 28px;
+  --pos: 0;
+  transform:translateY(calc(56px - (var(--pos) * var(--wheel-step))));
+  transition: transform 720ms cubic-bezier(.2,.9,.2,1);
+  will-change:transform;
+}
+.wi{
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  letter-spacing:-.02em;
+  font-size:13px;
+  color:rgba(255,255,255,.70);
+}
+.wi small{font-size:10px;color:rgba(196,199,218,.7);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-left:4px}
+.calc-result{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 12px;
+  border-radius:16px;
+  background:linear-gradient(160deg,rgba(16,185,129,.14),rgba(163,230,53,.08));
+  border:1px solid rgba(52,211,153,.22);
+}
+.calc-result .t{min-width:0}
+.calc-result .tiny{margin:0}
+.calc-result .take{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:-.03em;
+  margin-top:2px;
+}
+.calc-result .take b{color:#ECFCCB}
+.calc-result .sub{font-size:11.5px;color:rgba(196,199,218,.9);margin-top:4px}
+.syr{
+  width:48px;
+  height:120px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.18);
+  position:relative;
+  overflow:hidden;
+  flex:none;
+}
+.syr::before{
+  content:"";
+  position:absolute;
+  inset:12px 14px 12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.02);
+}
+.syr .fill{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:12px;
+  height:0%;
+  border-radius:10px;
+  background:linear-gradient(180deg, rgba(163,230,53,.95), rgba(16,185,129,.85));
+  box-shadow:0 0 18px rgba(163,230,53,.28);
+  transition: height 720ms cubic-bezier(.2,.9,.2,1);
+}
+.syr .mark{
+  position:absolute;
+  top:10px;
+  left:8px;
+  right:8px;
+  bottom:10px;
+  pointer-events:none;
+  opacity:.6;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255,255,255,.12) 0px,
+      rgba(255,255,255,.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+}
+.syr .u{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:9.5px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(196,199,218,.9);
+}
+@keyframes result-flash{
+  0%{box-shadow:0 0 0 rgba(163,230,53,0)}
+  28%{box-shadow:0 0 0 6px rgba(163,230,53,.08)}
+  100%{box-shadow:0 0 0 rgba(163,230,53,0)}
+}
+.calc--flash .calc-result{animation: result-flash 720ms ease-out both}
+
+@media(max-width:980px){
+  .demo-grid{grid-template-columns:1fr;gap:14px}
+  .demo-copy{padding:8px 10px 0}
+  .demo-stage{padding:0 0 10px}
+  .demo-phone{transform:none}
+}
+@media(max-width:720px){
+  .creative--demo{padding:18px 16px}
+  .demo-copy h3{font-size:20px}
+  .demo-copy p{font-size:14px}
+}
+@media (prefers-reduced-motion: reduce){
+  .js .proto-caret{animation:none}
+  .proto-items,.wheel-items,.syr .fill{transition:none}
+  .proto-toast{animation:none}
+  .calc-result{animation:none}
+}
+
 /* ===== Hero toast nudges (homepage) ===== */
 .hero-creative{position:relative}
 .toast-stack{
@@ -1060,6 +1452,96 @@ footer a:hover{color:#fff}
       <figure class="creative" data-reveal data-reveal-delay="60">
         <img src="assets/marketing/feature-protocols.png" alt="Protocols made easy. Add peptides and supplements." loading="lazy" decoding="async" />
       </figure>
+
+      <figure class="creative creative--demo" data-reveal data-reveal-delay="70">
+        <div class="demo-grid">
+          <div class="demo-copy">
+            <div class="demo-kicker">Live demo</div>
+            <h3>Protocol search → log.</h3>
+            <p>Scroll your library, find <b>Zepbound / Tirzepatide</b>, tap it, and get a soft “Logged” confirmation. Visual-only mock UI — no backend, no claims.</p>
+          </div>
+
+          <div class="demo-stage proto" data-demo="protocol" aria-hidden="true">
+            <div class="phone demo-phone" style="transform:translateY(2px) rotate(.6deg)">
+              <div class="screen">
+                <div class="notch"></div>
+                <div class="statusbar"><span>9:41</span><span class="ic">●●●</span></div>
+                <div class="screen-body">
+                  <div class="proto-top">
+                    <div class="title">Library</div>
+                    <span class="label-pill lp-cyan">Search</span>
+                  </div>
+
+                  <div class="proto-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+                    </svg>
+                    <span class="proto-q" data-proto-query></span>
+                    <span class="proto-caret" aria-hidden="true"></span>
+                    <span style="margin-left:auto" class="tiny">Tap to log</span>
+                  </div>
+
+                  <div class="proto-results">
+                    <div class="proto-items" data-proto-items>
+                      <div class="proto-item" data-proto-item="bpc">
+                        <div class="nm">BPC-157</div>
+                        <span class="tag">peptide</span>
+                        <span class="act">log</span>
+                      </div>
+                      <div class="proto-item" data-proto-item="nad">
+                        <div class="nm">NAD+</div>
+                        <span class="tag">support</span>
+                        <span class="act">log</span>
+                      </div>
+                      <div class="proto-item" data-proto-item="semaglutide">
+                        <div class="nm">Semaglutide</div>
+                        <span class="tag">glp</span>
+                        <span class="act">log</span>
+                      </div>
+                      <div class="proto-item" data-proto-item="glp2">
+                        <div class="nm">GLP-2</div>
+                        <span class="tag">ref</span>
+                        <span class="act">log</span>
+                      </div>
+                      <div class="proto-item" data-proto-item="tirz">
+                        <div class="nm">Zepbound / Tirzepatide</div>
+                        <span class="tag">glp</span>
+                        <span class="act">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                          log
+                        </span>
+                      </div>
+                      <div class="proto-item" data-proto-item="cjc">
+                        <div class="nm">CJC-1295</div>
+                        <span class="tag">peptide</span>
+                        <span class="act">log</span>
+                      </div>
+                      <div class="proto-item" data-proto-item="mag">
+                        <div class="nm">Magnesium</div>
+                        <span class="tag">supp</span>
+                        <span class="act">log</span>
+                      </div>
+                    </div>
+
+                    <div class="proto-toast" data-proto-toast>
+                      <div class="l">
+                        <span class="ic" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6L9 17l-5-5"/>
+                          </svg>
+                        </span>
+                        <span class="t">Logged</span>
+                      </div>
+                      <span class="pill">saved</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+
       <figure class="creative" data-reveal data-reveal-delay="80">
         <img src="assets/marketing/feature-builder.png" alt="Build your stack. Custom dosing. Flexible schedules." loading="lazy" decoding="async" />
       </figure>
@@ -1075,6 +1557,89 @@ footer a:hover{color:#fff}
           <img src="assets/marketing/feature-reconstitution.png" alt="Calculations, solved. Reconstitution made simple." loading="lazy" decoding="async" />
         </figure>
       </div>
+
+      <figure class="creative creative--demo" data-reveal data-reveal-delay="90">
+        <div class="demo-grid">
+          <div class="demo-copy">
+            <div class="demo-kicker">Live demo</div>
+            <h3>Syringe / reconstitution math, animated.</h3>
+            <p>Wheel-style inputs (vial mg, BAC water, dose mcg) update the result instantly — with a tiny syringe fill indicator. Visual-only mock UI.</p>
+          </div>
+
+          <div class="demo-stage calc" data-demo="calc" aria-hidden="true">
+            <div class="phone demo-phone">
+              <div class="screen">
+                <div class="notch"></div>
+                <div class="statusbar"><span>9:41</span><span class="ic">●●●</span></div>
+                <div class="screen-body">
+                  <div class="calc-top">
+                    <div class="title">Calculator</div>
+                    <span class="label-pill lp-mint">Reconstitution</span>
+                  </div>
+
+                  <div class="calc-wrap">
+                    <div class="calc-grid">
+                      <div class="wheels">
+                        <div class="wheel" data-wheel="vial">
+                          <div class="lbl">Vial</div>
+                          <div class="wheel-window">
+                            <div class="wheel-items" data-wheel-items="vial">
+                              <div class="wi">5 <small>mg</small></div>
+                              <div class="wi">10 <small>mg</small></div>
+                              <div class="wi">15 <small>mg</small></div>
+                              <div class="wi">20 <small>mg</small></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="wheel" data-wheel="bac">
+                          <div class="lbl">BAC</div>
+                          <div class="wheel-window">
+                            <div class="wheel-items" data-wheel-items="bac">
+                              <div class="wi">1 <small>mL</small></div>
+                              <div class="wi">2 <small>mL</small></div>
+                              <div class="wi">3 <small>mL</small></div>
+                              <div class="wi">4 <small>mL</small></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="wheel" data-wheel="dose">
+                          <div class="lbl">Dose</div>
+                          <div class="wheel-window">
+                            <div class="wheel-items" data-wheel-items="dose">
+                              <div class="wi">100 <small>mcg</small></div>
+                              <div class="wi">150 <small>mcg</small></div>
+                              <div class="wi">200 <small>mcg</small></div>
+                              <div class="wi">250 <small>mcg</small></div>
+                              <div class="wi">300 <small>mcg</small></div>
+                              <div class="wi">350 <small>mcg</small></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="calc-result" data-calc-result>
+                        <div class="t">
+                          <div class="tiny">Result</div>
+                          <div class="take">Take: <b data-calc-units>5</b> units</div>
+                          <div class="sub"><span data-calc-meta>≈ 0.05 mL @ 100u/mL</span></div>
+                        </div>
+                        <div class="syr" aria-hidden="true">
+                          <div class="u"><span data-calc-units-mini>5</span>u</div>
+                          <div class="mark"></div>
+                          <div class="fill" data-calc-fill></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
 
       <figure class="creative" data-reveal data-reveal-delay="90">
         <img src="assets/marketing/feature-progress.png" alt="Visualize progress. Graphs. Trends. Insights." loading="lazy" decoding="async" />
@@ -1606,6 +2171,7 @@ footer a:hover{color:#fff}
 
 <script defer src="assets/reveal.js"></script>
 <script defer src="assets/hero-toasts.js"></script>
+<script defer src="assets/home-demos.js"></script>
 
 </body>
 </html>
