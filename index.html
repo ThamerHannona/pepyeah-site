@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PEP YEAH — Redesign</title>
+<title>PEP YEAH — Peptide Tracker</title>
+<meta name="description" content="PEP YEAH is a protocol companion for tracking doses (injectable + oral), meals with photos + macros, progress signals, and shareable PDF day reports — with subscription-based Pro features." />
 <link rel="icon" type="image/png" href="pep-yeah-icon.png">
 <link rel="apple-touch-icon" href="pep-yeah-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -414,6 +415,36 @@ section{padding:90px 0;position:relative}
 .gallery .caption h4{font-size:18px;margin:6px 0 6px;letter-spacing:-.02em}
 .gallery .caption p{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0}
 
+/* ===== Marketing creatives (full-bleed panels) ===== */
+.bleed{
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  padding:0 18px;
+}
+.creative{
+  max-width:1280px;
+  margin:0 auto;
+  border-radius:28px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  box-shadow:0 26px 70px -34px rgba(0,0,0,.85);
+}
+.creative img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.marketing-stack{display:grid;gap:28px}
+.marketing-split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:980px){.marketing-split{grid-template-columns:1fr}}
+.soft-note{color:var(--muted);font-size:13.5px;line-height:1.6;margin:14px auto 0;max-width:70ch;text-align:center}
+
+/* Hide legacy sections now replaced by creatives */
+.hero-stage,.trust{display:none !important}
+#how,#screens,#features,#pricing{display:none !important}
+
 /* ----- Features ----- */
 .features{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 @media(max-width:1000px){.features{grid-template-columns:repeat(2,1fr)}}
@@ -583,15 +614,13 @@ footer a:hover{color:#fff}
     <span class="brand-wordmark-lg brand-wordmark-text">PEP YEAH</span>
   </a>
   <nav>
-    <a href="#how">How it works</a>
-    <a href="#screens">Screens</a>
-    <a href="#features">Features</a>
-    <a href="#trust">Trust</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#marketing-features">Features</a>
+    <a href="#marketing-knowledge">Knowledge</a>
+    <a href="#marketing-subscription">Subscription</a>
   </nav>
   <div class="nav-right">
     <a href="/support/" class="btn btn-ghost">Support</a>
-    <a href="https://pep-companion.lovable.app" target="_blank" rel="noopener" class="btn btn-primary">Preview (beta)
+    <a href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" class="btn btn-primary">Request TestFlight
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </div>
@@ -600,19 +629,18 @@ footer a:hover{color:#fff}
 <!-- ============== HERO ============== -->
 <section class="hero">
   <div class="container">
-    <span class="eyebrow"><span class="dot"></span>Built for protocol tracking · iOS app in testing · App Store soon</span>
-    <h1>The peptide tracker that <em>thinks like you do.</em></h1>
-    <p class="lead">Pep Yeah keeps your doses, vials, schedule, body-map, labs, sleep, hydration and meals in one calm workspace — with an AI coach that summarizes your own records inside hard medical guardrails.</p>
+    <span class="eyebrow"><span class="dot"></span>Protocol companion · iOS testing · App Store soon</span>
+    <h1>Your routine. <em>One powerful app.</em></h1>
+    <p class="lead">Track doses (injectable + oral), meals with photos + macros, progress signals (weight, sleep, hydration, side effects), recovery metrics, and exportable PDF day reports — with streaks, reminders, and a knowledge layer built for consistency.</p>
 
     <div class="hero-ctas" id="download">
       <a class="hero-store coming-soon" href="#" aria-disabled="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M16.365 1.43c0 1.14-.46 2.24-1.21 3.04-.81.86-2.12 1.5-3.2 1.42-.13-1.1.42-2.24 1.16-3.04C13.95 1.94 15.32 1.4 16.365 1.43zM20.5 17.3c-.62 1.36-.92 1.97-1.72 3.18-1.12 1.7-2.7 3.82-4.66 3.84-1.74.02-2.19-1.13-4.55-1.12-2.36.01-2.86 1.14-4.6 1.12-1.96-.02-3.45-1.93-4.57-3.63C-1.6 17.05-1.84 11.4 1.05 8.5c1.65-1.66 4.1-1.92 5.62-.95 1.04.66 1.41.95 2.66.95 1.24 0 1.5-.34 2.7-.97 1.05-.55 3.34-1 4.96.49 3.21 2.91 1.66 7.96-1.49 9.28z"/></svg>
         <span><small>Coming soon on the</small>App Store</span>
       </a>
-      <a class="hero-store coming-soon" href="#" aria-disabled="true">
-        <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#A3E635" d="M3 2.5l10.5 9.5L3 21.5z"/><path fill="#10B981" d="M14.5 12L21 8.5l-2.7 3.5L21 15.5z"/></svg>
-        <span><small>Coming soon to</small>Google Play</span>
-        <em class="soon-tag">SOON</em>
+      <a class="hero-store" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3E635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span><small>Invite-only</small>Request TestFlight</span>
       </a>
     </div>
 
@@ -621,6 +649,12 @@ footer a:hover{color:#fff}
       <span>No sourcing</span>
       <span>No dose-change recommendations</span>
       <span>Your records, exportable</span>
+    </div>
+
+    <div class="bleed" style="margin-top:34px">
+      <figure class="creative">
+        <img src="assets/marketing/hero-home-routine.png" alt="PEP YEAH — Your routine. One powerful app. Home screen showing next dose, streak, and calories/macros." fetchpriority="high" decoding="async" />
+      </figure>
     </div>
 
     <!-- Phones -->
@@ -776,7 +810,92 @@ footer a:hover{color:#fff}
       <div class="item"><b>Apple IAP</b> subscriptions</div>
       <div class="item"><b>Exports</b> (PDF/CSV reports)</div>
       <div class="item"><b>Meal/label</b> + progress photos</div>
-      <div class="item"><b>Encrypted</b> in transit</div>
+      <div class="item"><b>Not medical</b> advice</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MARKETING FEATURES (CREATIVES) ============== -->
+<section id="marketing-features">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Features</div>
+      <h2>Everything you need to track your <em>protocol.</em></h2>
+      <p>PEP YEAH is a tracking companion — not medical advice, and not a medical device.</p>
+    </div>
+  </div>
+
+  <div class="bleed">
+    <div class="marketing-stack">
+      <figure class="creative">
+        <img src="assets/marketing/feature-schedule.png" alt="Stay on schedule. Track doses. Build consistency." loading="lazy" decoding="async" />
+      </figure>
+      <figure class="creative">
+        <img src="assets/marketing/feature-protocols.png" alt="Protocols made easy. Add peptides and supplements." loading="lazy" decoding="async" />
+      </figure>
+      <figure class="creative">
+        <img src="assets/marketing/feature-builder.png" alt="Build your stack. Custom dosing. Flexible schedules." loading="lazy" decoding="async" />
+      </figure>
+      <figure class="creative">
+        <img src="assets/marketing/feature-journal.png" alt="Track how you feel. Energy. Mood. Daily notes." loading="lazy" decoding="async" />
+      </figure>
+
+      <div class="marketing-split">
+        <figure class="creative">
+          <img src="assets/marketing/feature-dose-calculator.png" alt="Calculate with confidence. Clear inputs. Readable results." loading="lazy" decoding="async" />
+        </figure>
+        <figure class="creative">
+          <img src="assets/marketing/feature-reconstitution.png" alt="Calculations, solved. Reconstitution made simple." loading="lazy" decoding="async" />
+        </figure>
+      </div>
+
+      <figure class="creative">
+        <img src="assets/marketing/feature-progress.png" alt="Visualize progress. Graphs. Trends. Insights." loading="lazy" decoding="async" />
+      </figure>
+    </div>
+    <p class="soft-note">No pricing is shown here — subscription pricing is set in the App Store when the app launches.</p>
+  </div>
+</section>
+
+<!-- ============== KNOWLEDGE + AI ============== -->
+<section id="marketing-knowledge">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Knowledge</div>
+      <h2>Answers and references, <em>in one place.</em></h2>
+      <p>Designed to help you stay organized — without prescribing, sourcing, or dose-change recommendations.</p>
+    </div>
+  </div>
+  <div class="bleed">
+    <div class="marketing-split">
+      <figure class="creative">
+        <img src="assets/marketing/feature-knowledge.png" alt="GLP-1s. TRT. Peptides. One place to track your routine. Knowledge base." loading="lazy" decoding="async" />
+      </figure>
+      <figure class="creative">
+        <img src="assets/marketing/feature-ai.png" alt="Questions? Start here. PEP YEAH AI plus Knowledge." loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SUBSCRIPTION CTA ============== -->
+<section id="marketing-subscription">
+  <div class="container">
+    <div class="cta" style="padding:54px 34px">
+      <h2>Coming soon on the App Store</h2>
+      <p>PEP YEAH is in iOS testing. Want early access? Email <a href="mailto:support@pepyeah.com">support@pepyeah.com</a> for a TestFlight invite.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">Request TestFlight
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="/support/">Support</a>
+      </div>
+      <div class="guardrails" style="justify-content:center;margin-top:14px">
+        <span>18+ only</span>
+        <span>No prescribing</span>
+        <span>No sourcing</span>
+        <span>No dose-change recommendations</span>
+      </div>
     </div>
   </div>
 </section>
@@ -787,23 +906,23 @@ footer a:hover{color:#fff}
     <div class="section-head">
       <div class="kicker">How it works</div>
       <h2>From setup to first dose in <em>under two minutes.</em></h2>
-      <p>Build the protocol, log the dose, review the picture. Pep Yeah is built for repeat use — fast capture in the moment, calmer review later.</p>
+      <p>Build the protocol, log the dose, review the day. PEP YEAH is built for repeat use — fast capture in the moment, calmer review later.</p>
     </div>
     <div class="steps">
       <div class="step" data-n="01">
         <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 9h18M8 13h6M8 16h4"/></svg></div>
         <h3>Set up your protocol</h3>
-        <p>Add peptides, doses, schedule windows — daily, EOD, or fully custom. Vials, lot numbers, and reconstitution math handled for you.</p>
+        <p>Add compounds/supplements, injectable or oral dosing, and schedule windows — daily, EOD, or fully custom. Track history over time.</p>
       </div>
       <div class="step" data-n="02">
         <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v6m0 0l3-3m-3 3L9 5"/><circle cx="12" cy="14" r="7"/></svg></div>
         <h3>Track every dose</h3>
-        <p>One-tap logging the second it's done — site, time, notes. Site rotation, history, and reminders build automatically.</p>
+        <p>One-tap logging the second it's done — route, site (if applicable), time, and notes. Streaks, history, and reminders build automatically.</p>
       </div>
       <div class="step" data-n="03">
         <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 11l2 2 4-4"/></svg></div>
         <h3>Get guarded answers</h3>
-        <p>Pep Coach summarizes your own records — patterns across sleep, hydration, side-effects — never prescribes, never changes doses.</p>
+        <p>Pep Coach summarizes your own records — patterns across sleep, hydration, side effects, meals — never prescribes, never sources, never changes doses.</p>
       </div>
     </div>
   </div>
@@ -815,7 +934,7 @@ footer a:hover{color:#fff}
     <div class="section-head">
       <div class="kicker">Inside the app</div>
       <h2>A calm interface for <em>repeat tracking.</em></h2>
-      <p>Illustrative UI previews across schedule, inventory, logging, body-map, insights, and guides. The app UI may evolve during testing.</p>
+      <p>Illustrative previews across tracking, history, meals, and reports. The app UI may evolve during testing.</p>
     </div>
 
     <div class="gallery">
@@ -844,16 +963,16 @@ footer a:hover{color:#fff}
                 </div>
               </div>
               <div class="timeline">
-                <div class="tl-row"><div class="tl-time">7:00</div><div class="tl-dot done"></div><div class="tl-body"><div class="t">Tirzepatide · 5 mg</div><div class="s">Logged · Left abdomen</div></div></div>
-                <div class="tl-row"><div class="tl-time">9:25</div><div class="tl-dot"></div><div class="tl-body"><div class="t">Ipamorelin · 100 mcg</div><div class="s">Due in 15 min · Left ab</div></div></div>
+                <div class="tl-row"><div class="tl-time">7:00</div><div class="tl-dot done"></div><div class="tl-body"><div class="t">Compound A · Dose</div><div class="s">Logged · Left abdomen</div></div></div>
+                <div class="tl-row"><div class="tl-time">9:25</div><div class="tl-dot"></div><div class="tl-body"><div class="t">Compound B · Dose</div><div class="s">Due in 15 min · Left ab</div></div></div>
                 <div class="tl-row"><div class="tl-time">14:00</div><div class="tl-dot future"></div><div class="tl-body"><div class="t">Hydration check</div><div class="s">Goal: 2.5 L</div></div></div>
-                <div class="tl-row"><div class="tl-time">21:00</div><div class="tl-dot future"></div><div class="tl-body"><div class="t">BPC-157 · 250 mcg</div><div class="s">Right deltoid</div></div></div>
+                <div class="tl-row"><div class="tl-time">21:00</div><div class="tl-dot future"></div><div class="tl-body"><div class="t">Compound C · Dose</div><div class="s">Right deltoid</div></div></div>
                 <div class="tl-row"><div class="tl-time">22:30</div><div class="tl-dot future"></div><div class="tl-body"><div class="t">Sleep window</div><div class="s">Wind-down + log</div></div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="caption"><div class="tag">SCHEDULE</div><h4>Never miss, never double-dose</h4><p>A single timeline of doses, hydration, sleep, and labs — with one-tap logging and site rotation.</p></div>
+        <div class="caption"><div class="tag">SCHEDULE</div><h4>Never miss, never double-dose</h4><p>A single timeline of doses, hydration, sleep, and reminders — with one-tap logging and clear history.</p></div>
       </div>
 
       <!-- 2. Inventory -->
@@ -871,29 +990,29 @@ footer a:hover{color:#fff}
                 <div class="row">
                   <div>
                     <div class="tiny" style="color:#FFD58A">Refill soon</div>
-                    <div style="font-size:14.5px;font-weight:700;margin-top:2px">BPC-157 — 4 doses left</div>
+                    <div style="font-size:14.5px;font-weight:700;margin-top:2px">Compound — 4 doses left</div>
                   </div>
-                  <button class="btn-mini" style="background:#FFD58A;color:#3B2A05">Reorder</button>
+                  <span class="label-pill lp-amber">Low stock</span>
                 </div>
               </div>
               <div class="inv-grid">
                 <div class="inv">
-                  <div class="row"><div class="nm">Ipamorelin</div><span class="tiny" style="color:var(--mint)">68%</span></div>
+                  <div class="row"><div class="nm">Compound A</div><span class="tiny" style="color:var(--mint)">68%</span></div>
                   <div class="meta">10 mg vial · Lot 4419</div>
                   <div class="bar"><i style="width:68%"></i></div>
                 </div>
                 <div class="inv">
-                  <div class="row"><div class="nm">BPC-157</div><span class="tiny" style="color:#FFD58A">22%</span></div>
+                  <div class="row"><div class="nm">Compound B</div><span class="tiny" style="color:#FFD58A">22%</span></div>
                   <div class="meta">5 mg vial · Lot 9101</div>
                   <div class="bar"><i style="width:22%;background:linear-gradient(90deg,#F5B945,#FF6B8B)"></i></div>
                 </div>
                 <div class="inv">
-                  <div class="row"><div class="nm">Tirzepatide</div><span class="tiny" style="color:var(--mint)">81%</span></div>
+                  <div class="row"><div class="nm">Compound C</div><span class="tiny" style="color:var(--mint)">81%</span></div>
                   <div class="meta">15 mg pen · Lot 5527</div>
                   <div class="bar"><i style="width:81%"></i></div>
                 </div>
                 <div class="inv">
-                  <div class="row"><div class="nm">CJC-1295</div><span class="tiny" style="color:var(--mint)">54%</span></div>
+                  <div class="row"><div class="nm">Compound D</div><span class="tiny" style="color:var(--mint)">54%</span></div>
                   <div class="meta">5 mg vial · Lot 7782</div>
                   <div class="bar"><i style="width:54%"></i></div>
                 </div>
@@ -911,7 +1030,7 @@ footer a:hover{color:#fff}
             </div>
           </div>
         </div>
-        <div class="caption"><div class="tag">INVENTORY</div><h4>Vials, lots, expirations</h4><p>Live remaining doses, refill alerts, and reconstitution helpers built in.</p></div>
+        <div class="caption"><div class="tag">JOURNAL</div><h4>Compound journal + history</h4><p>Protocol history, notes, and inventory context in one place.</p></div>
       </div>
 
       <!-- 3. Log Dose -->
@@ -969,7 +1088,7 @@ footer a:hover{color:#fff}
             </div>
           </div>
         </div>
-        <div class="caption"><div class="tag">ONE-TAP LOGGING</div><h4>Done in two seconds</h4><p>Site, amount, quick-note chips. Reconstitution math (mcg ↔ IU) auto-converted from your vial.</p></div>
+        <div class="caption"><div class="tag">ONE-TAP LOGGING</div><h4>Done in two seconds</h4><p>Route/site, amount, quick notes — designed for repeat daily use.</p></div>
       </div>
 
       <!-- 4. Body Map -->
@@ -1000,7 +1119,7 @@ footer a:hover{color:#fff}
               </div>
               <div class="m-card" style="margin-top:10px">
                 <div class="row"><span class="tiny">Suggested next</span><span class="label-pill lp-cyan">Left abdomen</span></div>
-                <div class="small" style="margin-top:8px;color:var(--text-dim)">Right ab used 3× in 4 days. Coach suggests rotating to left ab to avoid lipoatrophy.</div>
+                <div class="small" style="margin-top:8px;color:var(--text-dim)">Right ab used 3× in 4 days. Rotation helps you vary sites; always use your own judgment and guidance.</div>
               </div>
               <div class="m-card" style="display:flex;gap:8px;align-items:center">
                 <div style="display:flex;gap:6px"><span style="width:10px;height:10px;border-radius:99px;background:#A3E635"></span><span class="tiny">Last</span></div>
@@ -1068,7 +1187,7 @@ footer a:hover{color:#fff}
             </div>
           </div>
         </div>
-        <div class="caption"><div class="tag">INSIGHTS</div><h4>Watch your body respond</h4><p>Trend lines, heatmaps, and pattern context — derived from data you've already logged, never invented.</p></div>
+        <div class="caption"><div class="tag">PROGRESS</div><h4>Watch your signals move</h4><p>Trend lines and pattern context — derived from data you've logged, never invented.</p></div>
       </div>
 
       <!-- 6. Pep Learn -->
@@ -1124,21 +1243,20 @@ footer a:hover{color:#fff}
     <div class="section-head">
       <div class="kicker">Features</div>
       <h2>Everything you need to <em>run your protocol.</em></h2>
-      <p>Twelve focused tools, one calm workspace — built for repeat use, not novelty.</p>
+      <p>Focused tools, one calm workspace — built for repeat use, not novelty.</p>
     </div>
     <div class="features">
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>Schedule & reminders</h4><p>Recurring windows, EOD cycles, smart nudges that respect your sleep.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="6" rx="1"/><path d="M7 8h10v12a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg></div><h4>Vial inventory</h4><p>Lots, expirations, remaining doses, and reconstitution helpers.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0114 0"/></svg></div><h4>Body-map rotation</h4><p>Visual site history and rotation cues, tied back to each dose.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5 5L21 4"/></svg></div><h4>One-tap dose log</h4><p>Site, amount, quick-note chips, autosaved in two seconds.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h4M7 9h6M7 15h3"/></svg></div><h4>Side-effect log</h4><p>Severity, timing, linked back to doses — patterns surface automatically.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18l5-6 4 4 7-9"/></svg></div><h4>Weight & progress</h4><p>Trend lines, goals, and protocol-correlation views.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 5 11 5 15a7 7 0 1014 0c0-4-3-8-7-13z"/></svg></div><h4>Hydration rings</h4><p>Quick-tap entries, daily goal rings, weekly streaks.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><h4>Sleep tracking</h4><p>Bedtime, wake, quality — alongside dosing windows.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg></div><h4>Labs & safety</h4><p>Track labs you enter and review safety/interactions guidance inside the app.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="3"/><path d="M3 17l5-4 4 3 5-4 4 3"/></svg></div><h4>Nutrition scan</h4><p>Meal and label photos with calorie/macros estimates, saved alongside your protocol history.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3"/><circle cx="12" cy="12" r="4"/></svg></div><h4>Pep Coach AI</h4><p>Guarded summaries of your own records — never prescribes, never sources.</p></div>
-      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12a4 4 0 010 8H8v8H4z"/></svg></div><h4>Reports & exports</h4><p>Protocol history, day history, and shareable PDF reports when you need a clean summary.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>Protocol + dose tracking</h4><p>Injectable and oral logs with reminders, streaks, and clean history.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5 5L21 4"/></svg></div><h4>Compound journal</h4><p>Protocol history, notes, and schedule changes — all in one place.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0114 0"/></svg></div><h4>Injection site mapping</h4><p>Optional body-map tracking and rotation cues (for injectables).</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h10M7 9h6M7 15h3"/></svg></div><h4>Meals with photos + macros</h4><p>Food logging with photo capture and calorie/macros tracking.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18l5-6 4 4 7-9"/></svg></div><h4>Progress signals</h4><p>Weight, sleep, hydration, and side effects — day-by-day trends.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 5 11 5 15a7 7 0 1014 0c0-4-3-8-7-13z"/></svg></div><h4>Recovery metrics</h4><p>Track recovery-focused inputs you log, tied back to your protocol.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="6" rx="1"/><path d="M7 8h10v12a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg></div><h4>Library</h4><p>A searchable library of compounds/supplements and your saved protocols.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M7 3v4M17 3v4"/><rect x="3" y="7" width="18" height="14" rx="2"/></svg></div><h4>PDF day reports</h4><p>Export shareable day reports and protocol history PDFs.</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3"/><circle cx="12" cy="12" r="4"/></svg></div><h4>Pep Coach summaries</h4><p>Guarded summaries of your own records (not medical advice).</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div><h4>Onboarding + subscription</h4><p>Trial paywall + subscription unlocks Pro features (pricing set in App Store).</p></div>
+      <div class="feature"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M8 12h8"/></svg></div><h4>Age-gated (18+)</h4><p>Built for adults. No medical-device claims, no HIPAA claims.</p></div>
     </div>
   </div>
 </section>
@@ -1172,7 +1290,7 @@ footer a:hover{color:#fff}
     <div class="section-head">
       <div class="kicker">Simple pricing</div>
       <h2>Unlock your full <em>protocol.</em></h2>
-      <p>Plans are offered via the App Store. A free trial may be available where offered. You can cancel anytime in your Apple ID subscription settings.</p>
+      <p>PEP YEAH offers subscription plans via the App Store. A free trial may be available where offered. You can cancel anytime in your Apple ID subscription settings.</p>
     </div>
     <div class="price-grid">
       <div class="price">
@@ -1180,25 +1298,25 @@ footer a:hover{color:#fff}
         <div class="amt">Monthly<small> via App Store</small></div>
         <div class="desc">Pricing is set in the App Store.</div>
         <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Unlimited protocols & vials</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Pep Coach AI access</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Exports & PDF reports</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Side-effects & labs tracking</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Protocol + dose tracking</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Meals (photos + macros)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Reports + PDF exports</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Pep Coach summaries</li>
         </ul>
-        <a class="btn btn-ghost" href="https://pep-companion.lovable.app" target="_blank" rel="noopener" style="width:100%;justify-content:center">Preview (beta)</a>
+        <a class="btn btn-ghost" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" style="width:100%;justify-content:center">Request TestFlight</a>
       </div>
       <div class="price featured">
-        <span class="tag">3-DAY FREE TRIAL (WHERE OFFERED)</span>
+        <span class="tag">FREE TRIAL (WHERE OFFERED)</span>
         <h4>Yearly</h4>
         <div class="amt">Yearly<small> via App Store</small></div>
         <div class="desc">Same features, billed yearly. Pricing is set in the App Store.</div>
         <ul>
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Everything in Monthly</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Priority Pep Coach throughput</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Early access to new trackers</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Lifetime export of all records</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Best value if you track daily</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Same export + reporting features</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Same Pep Coach summaries</li>
         </ul>
-        <a class="btn btn-primary" href="https://pep-companion.lovable.app" target="_blank" rel="noopener" style="width:100%;justify-content:center">Preview (beta)</a>
+        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" style="width:100%;justify-content:center">Request TestFlight</a>
       </div>
     </div>
   </div>
@@ -1235,7 +1353,7 @@ footer a:hover{color:#fff}
       <h2>Ready to track your protocol — without hype?</h2>
       <p>PEP YEAH is in iOS testing now. App Store launch is coming soon.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="https://pep-companion.lovable.app" target="_blank" rel="noopener">Preview (beta)
+        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">Request TestFlight
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="btn btn-ghost" href="/support/">Support</a>
@@ -1252,7 +1370,7 @@ footer a:hover{color:#fff}
 
 <footer>
   <div class="container">
-    <div>© 2026 Shake and Bake Labs / Thamer Hannona</div>
+    <div>© 2026 Shake and Bake Labs / Thamer Hannona · <a href="mailto:support@pepyeah.com">support@pepyeah.com</a></div>
     <div>
       <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/support/">Support</a>
     </div>

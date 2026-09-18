@@ -12,11 +12,16 @@
   <style>
     :root{--bg:#06070D;--text:#F4F5FA;--muted:#8C92AE;--border:rgba(255,255,255,0.08);--violet:#10B981;--surface:rgba(255,255,255,0.035)}
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+    html{overflow-y:scroll;scrollbar-gutter:stable;color-scheme:dark}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
     a{color:var(--violet);text-decoration:none} a:hover{text-decoration:underline}
     .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:40px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
     .brand{font-weight:800;letter-spacing:.04em;color:var(--violet)}
+    .navlinks{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .navlinks a{color:#C4C7DA;font-size:.92rem}
+    .navlinks a:hover{color:#fff}
+    .navlinks a[aria-current="page"]{color:#fff;text-decoration:none}
     .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px}
     h1{font-size:2rem;margin:0 0 8px;letter-spacing:-.02em}
     h2{font-size:1.25rem;margin:2rem 0 .75rem;color:#fff}
@@ -24,11 +29,21 @@
     p,li{color:#C4C7DA} ul{padding-left:1.2rem}
     hr{border:0;border-top:1px solid var(--border);margin:1.5rem 0}
     .note{font-size:.9rem;color:var(--muted);margin-top:8px}
+    footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:.9rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    footer a{color:var(--muted)}
+    footer a:hover{color:#fff}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="nav"><a class="brand" href="/">PEP YEAH</a><a href="/">← Back to site</a></div>
+    <div class="nav">
+      <a class="brand" href="/">PEP YEAH</a>
+      <div class="navlinks">
+        <a href="/support/">Support</a>
+        <a href="/terms/" aria-current="page">Terms</a>
+        <a href="/privacy/">Privacy</a>
+      </div>
+    </div>
     <div class="card">
       <h1>Terms of Service — PEP YEAH</h1>
       <p><strong>Effective date:</strong> September 17, 2026</p>
@@ -76,6 +91,10 @@
       <p>Support and legal inquiries: <a href="mailto:support@pepyeah.com">support@pepyeah.com</a></p>
     </div>
     <p class="note">Questions: <a href="mailto:support@pepyeah.com">support@pepyeah.com</a></p>
+    <footer>
+      <div>© 2026 Shake and Bake Labs / Thamer Hannona</div>
+      <div><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/support/">Support</a></div>
+    </footer>
   </div>
 </body>
 </html>
