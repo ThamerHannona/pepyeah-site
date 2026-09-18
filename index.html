@@ -564,62 +564,7 @@ section{padding:90px 0;position:relative}
   will-change:auto !important;
 }
 
-/* ===== Meal scan (placeholder section) ===== */
-.scan{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:28px;
-  align-items:center;
-}
-@media(max-width:980px){.scan{grid-template-columns:1fr}}
-.scan h3{
-  font-size:clamp(24px,3.4vw,40px);
-  letter-spacing:-.02em;
-  line-height:1.08;
-  margin:0 0 12px;
-}
-.scan p{color:var(--text-dim);line-height:1.6;font-size:15px;margin:0}
-.scan-frame{margin-left:auto;width:min(340px, 88vw)}
-.scan-phone{
-  border-radius:46px;
-  padding:9px;
-  background:linear-gradient(180deg,#1A1D33,#0B0D1C 60%);
-  box-shadow:
-    0 40px 80px -30px rgba(0,0,0,.8),
-    0 0 0 1px rgba(255,255,255,.08),
-    inset 0 0 0 1.5px rgba(255,255,255,.06);
-}
-.scan-video{
-  border-radius:38px;
-  aspect-ratio:9/19.5;
-  overflow:hidden;
-  border:1px solid var(--border);
-  background:
-    radial-gradient(60% 50% at 30% 20%, rgba(16,185,129,.22), transparent 60%),
-    radial-gradient(55% 45% at 70% 30%, rgba(163,230,53,.14), transparent 60%),
-    linear-gradient(180deg,#0A0C1A 0%, #0E1228 100%);
-  display:grid;
-  place-items:center;
-  position:relative;
-}
-.scan-video::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(40% 50% at 50% 50%, rgba(255,255,255,.10), transparent 70%);
-  opacity:.35;
-  pointer-events:none;
-}
-.scan-placeholder{
-  position:relative;
-  z-index:1;
-  text-align:center;
-  padding:22px;
-  max-width:26ch;
-  color:var(--muted);
-  font-size:12.5px;
-  line-height:1.55;
-}
+/* (meal-scan placeholder section removed) */
 
 /* ===== Mobile / iPhone layout ===== */
 @media(max-width:720px){
@@ -1136,26 +1081,6 @@ footer a:hover{color:#fff}
       </figure>
     </div>
     <p class="soft-note" data-reveal data-reveal-delay="60">No pricing is shown here — subscription pricing is set in the App Store when the app launches.</p>
-  </div>
-</section>
-
-<!-- ============== MEAL SCAN (PLACEHOLDER) ============== -->
-<section id="marketing-mealscan">
-  <div class="container">
-    <div class="guard scan">
-      <div data-reveal>
-        <div class="kicker" style="color:var(--cyan)">Meals</div>
-        <h3>Snap your meal. See your macros.</h3>
-        <p>Capture a photo, log calories and macros fast, then review meals alongside sleep, hydration, and your protocol — all in one day timeline.</p>
-      </div>
-      <div class="scan-frame" data-reveal data-reveal-delay="60" aria-label="Meal scan video placeholder">
-        <div class="scan-phone">
-          <div class="scan-video">
-            <div class="scan-placeholder">Meal-scan demo video will appear here once added to the repo.</div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
