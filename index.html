@@ -427,6 +427,120 @@ section{padding:90px 0;position:relative}
   height:auto;
   display:block;
 }
+
+/* ===== Hero toast nudges (homepage) ===== */
+.hero-creative{position:relative}
+.toast-stack{
+  position:absolute;
+  top:18px; right:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:min(290px, 42vw);
+  pointer-events:none;
+  z-index:2;
+}
+.toast{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 12px;
+  border-radius:16px;
+  background:rgba(10,12,28,.62);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px) saturate(140%);
+  -webkit-backdrop-filter:blur(12px) saturate(140%);
+  box-shadow:0 18px 50px -26px rgba(0,0,0,.95);
+  opacity:0;
+  transform:translateY(10px) scale(.92);
+  will-change:transform, opacity;
+}
+.toast .t-ic{
+  width:28px;height:28px;border-radius:11px;
+  background:var(--grad-soft);
+  border:1px solid rgba(255,255,255,.10);
+  display:grid;place-items:center;
+  color:#ECFCCB;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  flex:none;
+}
+.toast .t-ic svg{width:16px;height:16px}
+.toast .t-body{min-width:0;flex:1}
+.toast .t-title{
+  font-size:12.8px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  line-height:1.25;
+  color:rgba(255,255,255,.96);
+  margin-top:1px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.toast .t-sub{
+  font-size:11px;
+  line-height:1.25;
+  color:rgba(196,199,218,.9);
+  margin-top:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.toast .t-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 9px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  background:rgba(163,230,53,.10);
+  border:1px solid rgba(163,230,53,.16);
+  color:#ECFCCB;
+  flex:none;
+}
+.toast .t-pill i{display:inline-block;width:6px;height:6px;border-radius:99px;background:var(--cyan);box-shadow:0 0 10px rgba(163,230,53,.45)}
+
+@keyframes toast-pop{
+  0%{opacity:0;transform:translateY(10px) scale(.92)}
+  65%{opacity:1}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes toast-out{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-8px) scale(.98)}
+}
+.toast.toast--in{
+  animation:toast-pop 520ms cubic-bezier(.2,.9,.2,1) both;
+  animation-delay:var(--d, 0ms);
+}
+.toast.toast--out{
+  animation:toast-out 420ms cubic-bezier(.2,.9,.2,1) both;
+  animation-delay:var(--d, 0ms);
+}
+
+@media(max-width:720px){
+  .toast-stack{
+    top:auto;
+    right:12px;
+    left:12px;
+    bottom:12px;
+    width:auto;
+    max-width:none;
+  }
+  .toast{border-radius:18px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .toast{
+    opacity:1;
+    transform:none;
+    animation:none !important;
+    will-change:auto;
+  }
+}
 .marketing-stack{display:grid;gap:28px}
 .marketing-split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:980px){.marketing-split{grid-template-columns:1fr}}
@@ -765,7 +879,63 @@ footer a:hover{color:#fff}
 
     <div class="bleed" style="margin-top:34px">
       <figure class="creative">
-        <img src="assets/marketing/hero-home-routine.png" alt="PEP YEAH — Your routine. One powerful app. Home screen showing next dose, streak, and calories/macros." fetchpriority="high" decoding="async" />
+        <div class="hero-creative">
+          <img src="assets/marketing/hero-home-routine.png" alt="PEP YEAH — Your routine. One powerful app. Home screen showing next dose, streak, and calories/macros." fetchpriority="high" decoding="async" />
+
+          <div class="toast-stack" data-hero-toasts aria-hidden="true">
+            <div class="toast" data-toast>
+              <span class="t-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </span>
+              <span class="t-body">
+                <div class="t-title">Dose logged ✓ <span style="color:#ECFCCB">BPC-157</span></div>
+                <div class="t-sub">Saved to your day report</div>
+              </span>
+              <span class="t-pill"><i></i>done</span>
+            </div>
+
+            <div class="toast" data-toast>
+              <span class="t-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.9 4.9l2.8 2.8"/><path d="M16.3 16.3l2.8 2.8"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.9 19.1l2.8-2.8"/><path d="M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="3.4" fill="currentColor" opacity=".25"/>
+                </svg>
+              </span>
+              <span class="t-body">
+                <div class="t-title">Time for your evening dose</div>
+                <div class="t-sub">Gentle nudge — no hype</div>
+              </span>
+              <span class="t-pill" style="background:rgba(245,185,69,.12);border-color:rgba(245,185,69,.18);color:#FFD58A"><i style="background:#F5B945;box-shadow:0 0 10px rgba(245,185,69,.45)"></i>due</span>
+            </div>
+
+            <div class="toast" data-toast>
+              <span class="t-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2l2.2 6.4H21l-5.4 3.9L17.8 19 12 15.4 6.2 19l2.2-6.7L3 8.4h6.8L12 2z" fill="currentColor" opacity=".22"/>
+                </svg>
+              </span>
+              <span class="t-body">
+                <div class="t-title">7-day streak <span style="color:#A3E635">🔥</span></div>
+                <div class="t-sub">Consistency beats intensity</div>
+              </span>
+              <span class="t-pill" style="background:rgba(74,222,128,.10);border-color:rgba(74,222,128,.16);color:#A7F3C7"><i style="background:#4ADE80;box-shadow:0 0 10px rgba(74,222,128,.45)"></i>hot</span>
+            </div>
+
+            <div class="toast" data-toast>
+              <span class="t-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 20H4a2 2 0 01-2-2V8a2 2 0 012-2h3l2-2h6l2 2h3a2 2 0 012 2v10a2 2 0 01-2 2z"/><circle cx="12" cy="13" r="3.4"/><path d="M8 6h.01"/>
+                </svg>
+              </span>
+              <span class="t-body">
+                <div class="t-title">Meal snapped — macros ready</div>
+                <div class="t-sub">Placeholder demo (onboarding has the real flow)</div>
+              </span>
+              <span class="t-pill" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.18);color:#A7F3D0"><i style="background:#10B981;box-shadow:0 0 10px rgba(16,185,129,.45)"></i>scan</span>
+            </div>
+          </div>
+        </div>
       </figure>
     </div>
 
@@ -1510,6 +1680,7 @@ footer a:hover{color:#fff}
 </footer>
 
 <script defer src="assets/reveal.js"></script>
+<script defer src="assets/hero-toasts.js"></script>
 
 </body>
 </html>
