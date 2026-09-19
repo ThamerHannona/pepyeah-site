@@ -240,7 +240,7 @@ body::after{
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
 }
 .screen-body{flex:1;overflow:hidden;padding:0 16px 14px}
-.screen-body.scroll{overflow-y:auto}
+.screen-body.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .screen-body::-webkit-scrollbar{display:none}
 
 .scr-header{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 14px}
@@ -471,16 +471,17 @@ section{padding:90px 0;position:relative}
   padding:12px 0;
 }
 .demo-phone{
-  width:272px;
-  height:560px;
+  --demo-phone-w: min(286px, 86vw);
+  width:var(--demo-phone-w);
+  height:calc(var(--demo-phone-w) * 19.5 / 9);
   transform:translateY(2px) rotate(-.8deg);
 }
 .demo-phone .statusbar{padding:12px 20px 4px;font-size:12px}
 .demo-phone .screen-body{padding:0 14px 14px}
 
-/* Dose calculator demo needs a little extra room so the syringe SVG isn't clipped */
-.demo-stage.calc{padding-bottom:26px}
-.demo-stage.calc .demo-phone{height:610px;transform:none}
+/* Dose calculator demo: keep a realistic iPhone aspect and scroll within the screen */
+.demo-stage.calc{padding-bottom:18px}
+.demo-stage.calc .demo-phone{transform:none}
 .demo-stage.calc .screen-body{padding:0 14px 16px}
 .demo-stage.calc .dose-head{padding:6px 6px 2px}
 .demo-stage.calc .dose-chips{padding:8px 6px 2px;gap:8px}
@@ -715,6 +716,7 @@ section{padding:90px 0;position:relative}
   border-radius:12px;
   background:rgba(0,0,0,.16);
   border:1px solid rgba(255,255,255,.08);
+  touch-action:none;
 }
 .wheel-window::before{
   content:"";
@@ -755,6 +757,13 @@ section{padding:90px 0;position:relative}
   letter-spacing:-.02em;
   font-size:13.5px;
   color:rgba(255,255,255,.52);
+  line-height:1;
+}
+.wi.sel{
+  color:rgba(255,255,255,.96);
+  font-size:22px;
+  font-weight:1000;
+  letter-spacing:-.03em;
 }
 .wi small{font-size:10px;color:rgba(196,199,218,.7);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-left:4px}
 .inject-card{
@@ -812,7 +821,6 @@ section{padding:90px 0;position:relative}
   .demo-stage{padding:0 0 10px}
   .demo-phone{transform:none}
   .demo-stage.calc{padding-bottom:14px}
-  .demo-stage.calc .demo-phone{height:610px}
 }
 @media(max-width:720px){
   .creative--demo{padding:18px 16px}
@@ -820,7 +828,6 @@ section{padding:90px 0;position:relative}
   .demo-copy p{font-size:14px}
 }
 @media(max-width:480px){
-  .demo-stage.calc .demo-phone{height:760px}
   .demo-stage.calc .inject-card .inject-v .n{font-size:28px}
   .demo-stage.calc .draw-top .v .n{font-size:28px}
   .demo-stage.calc .draw-top .v .u{font-size:15px}
@@ -1598,14 +1605,55 @@ footer a:hover{color:#fff}
 
                   <div class="dose-chips" role="tablist" aria-label="Syringe size">
                     <button class="chip" type="button" data-syringe-chip data-syringe-ml="0.3" data-syringe-units="30" role="tab" aria-selected="false">
-                      <span class="t1">0.3 mL</span><span class="t2">30 units</span>
+                      <span class="t1">0.3 mL</span><span class="t2">30u</span>
                     </button>
                     <button class="chip" type="button" data-syringe-chip data-syringe-ml="0.5" data-syringe-units="50" role="tab" aria-selected="false">
-                      <span class="t1">0.5 mL</span><span class="t2">50 units</span>
+                      <span class="t1">0.5 mL</span><span class="t2">50u</span>
                     </button>
                     <button class="chip sel" type="button" data-syringe-chip data-syringe-ml="1.0" data-syringe-units="100" role="tab" aria-selected="true">
-                      <span class="t1">1.0 mL</span><span class="t2">100 units</span>
+                      <span class="t1">1 mL</span><span class="t2">100u</span>
                     </button>
+                  </div>
+
+                  <div class="dose-wheels">
+                    <div class="wheel" data-wheel="vial">
+                      <div class="lbl">VIAL</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="vial">
+                          <div class="wi">4</div>
+                          <div class="wi">4.5</div>
+                          <div class="wi">5</div>
+                          <div class="wi">5.5</div>
+                          <div class="wi">6</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="wheel" data-wheel="bac">
+                      <div class="lbl">BAC WATER</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="bac">
+                          <div class="wi">1</div>
+                          <div class="wi">1.5</div>
+                          <div class="wi">2</div>
+                          <div class="wi">2.5</div>
+                          <div class="wi">3</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="wheel" data-wheel="dose">
+                      <div class="lbl">DOSE</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="dose">
+                          <div class="wi">200</div>
+                          <div class="wi">225</div>
+                          <div class="wi">250</div>
+                          <div class="wi">275</div>
+                          <div class="wi">300</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="inject-card" data-calc-inject>
@@ -1633,8 +1681,8 @@ footer a:hover{color:#fff}
                       <svg viewBox="0 0 340 116" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                           <linearGradient id="sgFill" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0" stop-color="#A3E635" stop-opacity="0.90"/>
-                            <stop offset="1" stop-color="#10B981" stop-opacity="0.75"/>
+                            <stop offset="0" stop-color="#E2E8F0" stop-opacity="0.84"/>
+                            <stop offset="1" stop-color="#CBD5E1" stop-opacity="0.62"/>
                           </linearGradient>
                           <linearGradient id="sgFillOver" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0" stop-color="#FBBF24" stop-opacity="0.92"/>
@@ -1682,7 +1730,7 @@ footer a:hover{color:#fff}
                         <g data-sg-ticks></g>
 
                         <!-- Target marker -->
-                        <line x1="55" y1="46" x2="55" y2="82" stroke="rgba(163,230,53,.95)" stroke-width="2.2" filter="url(#sgGlow)" data-sg-marker/>
+                        <line x1="55" y1="46" x2="55" y2="82" stroke="rgba(226,232,240,.92)" stroke-width="2.2" filter="url(#sgGlow)" data-sg-marker/>
                         <text x="55" y="106" text-anchor="middle" font-size="12" font-weight="900" fill="rgba(163,230,53,.95)" data-sg-marker-label>10u</text>
 
                         <!-- Left cap -->
@@ -1698,47 +1746,6 @@ footer a:hover{color:#fff}
                     <div class="sg-note">
                       Match this number to the same unit line on your syringe.<br/>
                       Verify the syringe is U-100.
-                    </div>
-                  </div>
-
-                  <div class="dose-wheels">
-                    <div class="wheel" data-wheel="vial">
-                      <div class="lbl">VIAL</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="vial">
-                          <div class="wi">4</div>
-                          <div class="wi">4.5</div>
-                          <div class="wi">5</div>
-                          <div class="wi">5.5</div>
-                          <div class="wi">6</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="wheel" data-wheel="bac">
-                      <div class="lbl">BAC WATER</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="bac">
-                          <div class="wi">1</div>
-                          <div class="wi">1.5</div>
-                          <div class="wi">2</div>
-                          <div class="wi">2.5</div>
-                          <div class="wi">3</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="wheel" data-wheel="dose">
-                      <div class="lbl">DOSE</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="dose">
-                          <div class="wi">200</div>
-                          <div class="wi">225</div>
-                          <div class="wi">250</div>
-                          <div class="wi">275</div>
-                          <div class="wi">300</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
 

@@ -215,6 +215,16 @@
       return { minor: 1, mid: 5, major: 5, labelEvery: 10 };
     };
 
+    const markWheelSelected = () => {
+      for (const key of ['vial', 'bac', 'dose']) {
+        const wheel = key === 'vial' ? vial : key === 'bac' ? bac : dose;
+        if (!wheel.wrap) continue;
+        const items = Array.from(wheel.wrap.querySelectorAll('.wi'));
+        const idx = key === 'vial' ? state.vialIdx : key === 'bac' ? state.bacIdx : state.doseIdx;
+        for (let i = 0; i < items.length; i++) items[i].classList.toggle('sel', i === idx);
+      }
+    };
+
     const renderTicks = () => {
       if (!sgTicksEl) return;
       clearSvgChildren(sgTicksEl);
@@ -298,7 +308,7 @@
         sgFillEl.setAttribute('fill', over ? 'url(#sgFillOver)' : 'url(#sgFill)');
       }
 
-      const markerStroke = over ? 'rgba(251,191,36,.92)' : 'rgba(163,230,53,.95)';
+      const markerStroke = over ? 'rgba(251,191,36,.92)' : 'rgba(226,232,240,.92)';
       const markerFilter = over ? 'url(#sgGlowOver)' : 'url(#sgGlow)';
 
       if (sgMarkerEl) {
@@ -311,7 +321,7 @@
       if (sgMarkerLabelEl) {
         sgMarkerLabelEl.setAttribute('x', x.toFixed(2));
         sgMarkerLabelEl.setAttribute('y', String(geom.markerLabelY));
-        sgMarkerLabelEl.setAttribute('fill', markerStroke);
+        sgMarkerLabelEl.setAttribute('fill', over ? 'rgba(251,191,36,.92)' : 'rgba(163,230,53,.95)');
         sgMarkerLabelEl.textContent = `${unitsStr}u`;
       }
     };
@@ -324,6 +334,7 @@
       setWheelPos(vial, state.vialIdx, { animMs });
       setWheelPos(bac, state.bacIdx, { animMs });
       setWheelPos(dose, state.doseIdx, { animMs });
+      markWheelSelected();
 
       const vialMg = vial.options[state.vialIdx] ?? 0;
       const bacMl = bac.options[state.bacIdx] ?? 1;
@@ -422,6 +433,12 @@
       const win = calc.querySelector(`[data-wheel="${key}"] .wheel-window`);
       if (!win) continue;
 
+      const wheelStepPx = 28;
+      let dragActive = false;
+      let dragStartY = 0;
+      let lastY = 0;
+      let accum = 0;
+
       win.addEventListener(
         'wheel',
         (e) => {
@@ -435,11 +452,55 @@
 
       win.addEventListener('pointerdown', (e) => {
         if (reduce) return;
-        const r = win.getBoundingClientRect();
-        const y = e.clientY - r.top;
-        const dir = y > r.height / 2 ? 1 : -1;
-        nudgeWheel(key, dir);
+        dragActive = true;
+        dragStartY = e.clientY;
+        lastY = e.clientY;
+        accum = 0;
+
+        try {
+          win.setPointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
       });
+
+      win.addEventListener('pointermove', (e) => {
+        if (reduce || !dragActive) return;
+        e.preventDefault();
+
+        const dy = e.clientY - lastY;
+        lastY = e.clientY;
+        accum += dy;
+
+        // Match a natural "picker" feel: swipe up -> next value (dir +1)
+        while (accum <= -wheelStepPx) {
+          nudgeWheel(key, 1);
+          accum += wheelStepPx;
+        }
+        while (accum >= wheelStepPx) {
+          nudgeWheel(key, -1);
+          accum -= wheelStepPx;
+        }
+      });
+
+      const endDrag = (e) => {
+        if (reduce) return;
+        if (!dragActive) return;
+        dragActive = false;
+
+        // If it was basically a tap, keep the old behavior: tap top/bottom nudges once.
+        const moved = Math.abs((e?.clientY ?? lastY) - dragStartY);
+        if (moved < 6) {
+          const r = win.getBoundingClientRect();
+          const y = (e?.clientY ?? lastY) - r.top;
+          const dir = y > r.height / 2 ? 1 : -1;
+          nudgeWheel(key, dir);
+        }
+      };
+
+      win.addEventListener('pointerup', endDrag);
+      win.addEventListener('pointercancel', endDrag);
+      win.addEventListener('lostpointercapture', endDrag);
     }
 
     for (const b of chipEls) {
