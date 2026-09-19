@@ -418,6 +418,7 @@ section{padding:90px 0;position:relative}
   margin:0 auto;
   border-radius:28px;
   overflow:hidden;
+  position:relative;
   border:1px solid rgba(255,255,255,.10);
   background:rgba(255,255,255,.03);
   box-shadow:0 26px 70px -34px rgba(0,0,0,.85);
@@ -427,6 +428,139 @@ section{padding:90px 0;position:relative}
   height:auto;
   display:block;
 }
+
+/* ===== Marketing creative overlays (copy fixes + carousels) ===== */
+.creative-stack{position:relative}
+.creative-fix{
+  position:absolute;
+  z-index:3;
+  background:rgba(248,244,236,.90);
+  border:1px solid rgba(0,0,0,.10);
+  box-shadow:0 14px 40px -18px rgba(0,0,0,.35);
+  border-radius:18px;
+  padding:10px 14px;
+  color:#0B0D1C;
+  text-align:center;
+  backdrop-filter:blur(10px) saturate(130%);
+  -webkit-backdrop-filter:blur(10px) saturate(130%);
+}
+.creative-fix .t1{
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:1.02;
+}
+.creative-fix .t2{
+  display:block;
+  margin-top:6px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  opacity:.82;
+  line-height:1.12;
+}
+.creative-fix--knowledge{
+  left:50%;
+  top:13%;
+  transform:translateX(-50%);
+  width:min(92%, 760px);
+}
+.creative-fix--knowledge .t1{
+  font-size:clamp(26px, 4.4vw, 62px);
+}
+.creative-fix--knowledge .t2{
+  font-size:clamp(14px, 1.6vw, 20px);
+}
+
+.creative-fix--hero{
+  left:50%;
+  top:19%;
+  transform:translateX(-50%);
+  width:min(92%, 740px);
+  padding:8px 12px;
+}
+.creative-fix--hero .t1{
+  font-size:clamp(14px, 1.7vw, 19px);
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+
+.creative-fix--protocols{
+  right:6.2%;
+  bottom:11.2%;
+  transform:none;
+  width:min(44%, 360px);
+  padding:10px 12px;
+}
+.creative-fix--protocols .t1{
+  font-size:clamp(14px, 1.8vw, 20px);
+  font-weight:900;
+}
+
+/* Screen-only carousel over the phone screen (marketing progress creative) */
+.phone-screen-carousel{
+  position:absolute;
+  left:29.8%;
+  top:28.9%;
+  width:49.1%;
+  height:58.1%;
+  z-index:2;
+  border-radius:26px;
+  overflow:hidden;
+  background:#070812;
+  box-shadow:0 24px 70px -40px rgba(0,0,0,.85);
+}
+.phone-screen-carousel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:26px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  pointer-events:none;
+  z-index:3;
+}
+.pc-viewport{
+  width:100%;
+  height:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.pc-track{
+  display:flex;
+  width:200%;
+  height:100%;
+}
+.pc-slide{
+  flex:0 0 100%;
+  height:100%;
+  scroll-snap-align:start;
+  position:relative;
+}
+.pc-slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform:translateZ(0) scale(1.08);
+}
+.pc-dots{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  display:flex;
+  gap:6px;
+  z-index:4;
+}
+.pc-dot{
+  width:7px;height:7px;border-radius:999px;
+  background:rgba(255,255,255,.28);
+  box-shadow:0 6px 18px -12px rgba(0,0,0,.8);
+}
+.pc-dot[aria-current="true"]{background:rgba(163,230,53,.92)}
+
+/* Reduced motion: keep first slide static */
+.rm .phone-screen-carousel .pc-viewport{overflow:hidden}
+.rm .phone-screen-carousel .pc-dots{display:none}
 
 /* ===== Animated micro-demos (homepage) ===== */
 .creative--demo{
@@ -1242,6 +1376,10 @@ footer a:hover{color:#fff}
         <div class="hero-creative">
           <img src="assets/marketing/hero-home-routine.png" alt="PEP YEAH — Your routine. One powerful app. Home screen showing next dose, streak, and calories/macros." fetchpriority="high" decoding="async" />
 
+          <div class="creative-fix creative-fix--hero" aria-hidden="true">
+            <div class="t1">GLPs 1–2–3. TRT. Peptides. Nutrition.</div>
+          </div>
+
           <div class="toast-stack" data-hero-toasts aria-hidden="true">
             <div class="toast" data-toast>
               <span class="t-ic" aria-hidden="true">
@@ -1473,7 +1611,12 @@ footer a:hover{color:#fff}
         <img src="assets/marketing/feature-schedule.png" alt="Stay on schedule. Track doses. Build consistency." loading="lazy" decoding="async" />
       </figure>
       <figure class="creative" data-reveal data-reveal-delay="60">
-        <img src="assets/marketing/feature-protocols.png" alt="Protocols made easy. Add peptides and supplements." loading="lazy" decoding="async" />
+        <div class="creative-stack">
+          <img src="assets/marketing/feature-protocols.png" alt="Your vials. Your protocols. Organized in one place." loading="lazy" decoding="async" />
+          <div class="creative-fix creative-fix--protocols" aria-hidden="true">
+            <div class="t1">GLPs 1–2–3 + TRT + peptides</div>
+          </div>
+        </div>
       </figure>
 
       <figure class="creative creative--demo" data-reveal data-reveal-delay="70">
@@ -1566,7 +1709,26 @@ footer a:hover{color:#fff}
       </figure>
 
       <figure class="creative" data-reveal data-reveal-delay="80">
-        <img src="assets/marketing/feature-builder.png" alt="Build your stack. Custom dosing. Flexible schedules." loading="lazy" decoding="async" />
+        <div class="creative-stack">
+          <img src="assets/marketing/feature-builder.png" alt="Your progress. In perspective. Weight, history and daily trends." loading="lazy" decoding="async" />
+
+          <div class="phone-screen-carousel" data-progress-carousel aria-label="Progress screens carousel">
+            <div class="pc-viewport" data-pc-viewport>
+              <div class="pc-track" data-pc-track>
+                <div class="pc-slide">
+                  <img src="assets/marketing/progress-screen.png" alt="Progress screen" loading="lazy" decoding="async" />
+                </div>
+                <div class="pc-slide">
+                  <img src="assets/marketing/history-screen.png" alt="History screen" loading="lazy" decoding="async" />
+                </div>
+              </div>
+            </div>
+            <div class="pc-dots" aria-hidden="true">
+              <span class="pc-dot" data-pc-dot aria-current="true"></span>
+              <span class="pc-dot" data-pc-dot aria-current="false"></span>
+            </div>
+          </div>
+        </div>
       </figure>
       <figure class="creative" data-reveal data-reveal-delay="100">
         <img src="assets/marketing/feature-journal.png" alt="Track how you feel. Energy. Mood. Daily notes." loading="lazy" decoding="async" />
@@ -1776,7 +1938,13 @@ footer a:hover{color:#fff}
   <div class="bleed">
     <div class="marketing-split">
       <figure class="creative" data-reveal data-reveal-delay="40">
-        <img src="assets/marketing/feature-knowledge.png" alt="GLP-1s. TRT. Peptides. One place to track your routine. Knowledge base." loading="lazy" decoding="async" />
+        <div class="creative-stack">
+          <img src="assets/marketing/feature-knowledge.png" alt="GLPs 1–2–3. TRT. Peptides. One place to track your routine. Knowledge base." loading="lazy" decoding="async" />
+          <div class="creative-fix creative-fix--knowledge" aria-hidden="true">
+            <div class="t1">GLPs 1–2–3. TRT. Peptides.</div>
+            <div class="t2">One place to track your routine.</div>
+          </div>
+        </div>
       </figure>
       <figure class="creative" data-reveal data-reveal-delay="70">
         <img src="assets/marketing/feature-ai.png" alt="Questions? Start here. PEP YEAH AI plus Knowledge." loading="lazy" decoding="async" />
