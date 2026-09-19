@@ -137,6 +137,8 @@
   // ---------------- Calculator demo ----------------
   const calc = document.querySelector('[data-demo="calc"]');
   if (calc) {
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
     const getOptions = (key) => {
       const wrap = calc.querySelector(`[data-wheel-items="${key}"]`);
       if (!wrap) return { wrap: null, options: [] };
@@ -155,8 +157,12 @@
     const volumeEl = calc.querySelector('[data-calc-volume]');
     const volumeMiniEl = calc.querySelector('[data-calc-volume-mini]');
     const injectSubEl = calc.querySelector('[data-calc-inject-sub]');
-    const markerEl = calc.querySelector('[data-calc-marker]');
-    const markerLabelEl = calc.querySelector('[data-calc-marker-label]');
+    const drawCardEl = calc.querySelector('[data-calc-draw]');
+
+    const sgTicksEl = calc.querySelector('[data-sg-ticks]');
+    const sgFillEl = calc.querySelector('[data-sg-fill]');
+    const sgMarkerEl = calc.querySelector('[data-sg-marker]');
+    const sgMarkerLabelEl = calc.querySelector('[data-sg-marker-label]');
 
     const chipEls = Array.from(calc.querySelectorAll('[data-syringe-chip]'));
     const getSelectedChip = () =>
@@ -174,59 +180,143 @@
     };
 
     let userInteractingUntil = 0;
-
     const bumpInteract = () => {
       userInteractingUntil = Date.now() + 8000;
     };
-
-    for (const b of chipEls) {
-      b.addEventListener('click', () => {
-        if (reduce) return;
-        bumpInteract();
-        setSelectedChip(b);
-        applyByIndex({ ...state }, { flash: false });
-      });
-    }
 
     const fmtUnits = (u) => {
       const rounded = Math.round(u * 2) / 2;
       return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
     };
-
     const fmtMl = (ml) => ml.toFixed(3);
+
+    const geom = { innerX: 55, innerW: 232, tickTopY: 50, labelY: 44, markerLabelY: 106 };
+
+    const clearSvgChildren = (el) => {
+      if (!el) return;
+      while (el.firstChild) el.removeChild(el.firstChild);
+    };
+    const svgEl = (name, attrs = {}) => {
+      const el = document.createElementNS(SVG_NS, name);
+      for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+      return el;
+    };
+
+    const getCapacity = () => {
+      const chip = getSelectedChip();
+      const capMl = Number.parseFloat(chip?.dataset?.syringeMl || '1') || 1;
+      const capUnits = Number.parseFloat(chip?.dataset?.syringeUnits || '100') || 100;
+      return { capMl, capUnits };
+    };
+
+    const getTickConfig = (maxUnits) => {
+      if (maxUnits === 100) return { minor: 1, mid: 5, major: 10, labelEvery: 20 };
+      if (maxUnits === 50) return { minor: 1, mid: 5, major: 10, labelEvery: 10 };
+      return { minor: 1, mid: 5, major: 5, labelEvery: 10 };
+    };
+
+    const renderTicks = () => {
+      if (!sgTicksEl) return;
+      clearSvgChildren(sgTicksEl);
+
+      const { capUnits } = getCapacity();
+      const { minor, mid, major, labelEvery } = getTickConfig(capUnits);
+      const stroke = 'rgba(226,232,240,.34)';
+      const fontFill = 'rgba(196,199,218,.82)';
+
+      for (let u = 0; u <= capUnits; u += minor) {
+        const x = geom.innerX + (u / capUnits) * geom.innerW;
+        const isMajor = u % major === 0;
+        const isMid = !isMajor && u % mid === 0;
+
+        const len = isMajor ? 14 : isMid ? 10 : 6;
+        const w = isMajor ? 1.6 : 1.2;
+        const op = isMajor ? 0.62 : isMid ? 0.46 : 0.28;
+
+        sgTicksEl.appendChild(
+          svgEl('line', {
+            x1: x.toFixed(2),
+            x2: x.toFixed(2),
+            y1: geom.tickTopY,
+            y2: geom.tickTopY + len,
+            stroke,
+            'stroke-width': w,
+            opacity: op,
+            'shape-rendering': 'crispEdges',
+          })
+        );
+
+        const isLabel = u === 0 || u === capUnits || (u % labelEvery === 0 && u !== 0);
+        if (isLabel) {
+          sgTicksEl.appendChild(
+            svgEl('text', {
+              x: x.toFixed(2),
+              y: geom.labelY,
+              'text-anchor': 'middle',
+              'font-size': 10,
+              'font-weight': 900,
+              fill: fontFill,
+              opacity: 0.92,
+            })
+          ).textContent = String(u);
+        }
+      }
+    };
 
     const setWheelPos = (wheel, pos, { animMs } = {}) => {
       if (!wheel.wrap) return;
-      if (Number.isFinite(animMs)) {
-        wheel.wrap.style.transitionDuration = `${Math.max(0, animMs)}ms`;
-      } else {
-        wheel.wrap.style.transitionDuration = '';
-      }
+      if (Number.isFinite(animMs)) wheel.wrap.style.transitionDuration = `${Math.max(0, animMs)}ms`;
+      else wheel.wrap.style.transitionDuration = '';
       wheel.wrap.style.setProperty('--pos', String(pos));
     };
 
-    const compute = ({ vialMg, bacMl, doseMcg, syringeMl, syringeUnits }) => {
-      // Assumptions: vial strength is in mg total, dose is in mcg, BAC is total mL added.
-      // U-100 insulin syringes are 100 units per 1 mL, regardless of total syringe capacity.
-      // concentration_mcg_per_mL = (vial_mg * 1000) / bac_mL
-      // volume_mL = dose_mcg / concentration_mcg_per_mL
-      // units = volume_mL * (syringe_units / syringe_mL)
+    const compute = ({ vialMg, bacMl, doseMcg }) => {
       const concMcgPerMl = (vialMg * 1000) / bacMl;
       const volMl = doseMcg / concMcgPerMl;
-      const unitsPerMl = syringeUnits / syringeMl;
-      const units = volMl * unitsPerMl;
+      const units = volMl * 100;
       return { units, volMl };
     };
 
     const state = { vialIdx: 0, bacIdx: 0, doseIdx: 0 };
-
     const clampIdx = (idx, len) => Math.max(0, Math.min(idx, Math.max(0, len - 1)));
+    const stepToward = (cur, target) => (cur === target ? cur : cur + Math.sign(target - cur));
 
-    const applyByIndex = (
-      { vialIdx, bacIdx, doseIdx },
-      { flash } = { flash: true },
-      { animMs } = {}
-    ) => {
+    const setSyringeSvg = ({ units }) => {
+      const { capUnits } = getCapacity();
+      const unitsStr = fmtUnits(units);
+
+      const over = units > capUnits + 1e-6;
+      if (drawCardEl) drawCardEl.classList.toggle('sg--over', over);
+
+      const clamped = Math.max(0, Math.min(units, capUnits));
+      const frac = capUnits > 0 ? clamped / capUnits : 0;
+      const fillW = geom.innerW * frac;
+      const x = geom.innerX + fillW;
+
+      if (sgFillEl) {
+        sgFillEl.setAttribute('width', fillW.toFixed(2));
+        sgFillEl.setAttribute('fill', over ? 'url(#sgFillOver)' : 'url(#sgFill)');
+      }
+
+      const markerStroke = over ? 'rgba(251,191,36,.92)' : 'rgba(163,230,53,.95)';
+      const markerFilter = over ? 'url(#sgGlowOver)' : 'url(#sgGlow)';
+
+      if (sgMarkerEl) {
+        sgMarkerEl.setAttribute('x1', x.toFixed(2));
+        sgMarkerEl.setAttribute('x2', x.toFixed(2));
+        sgMarkerEl.setAttribute('stroke', markerStroke);
+        sgMarkerEl.setAttribute('filter', markerFilter);
+      }
+
+      if (sgMarkerLabelEl) {
+        sgMarkerLabelEl.setAttribute('x', x.toFixed(2));
+        sgMarkerLabelEl.setAttribute('y', String(geom.markerLabelY));
+        sgMarkerLabelEl.setAttribute('fill', markerStroke);
+        sgMarkerLabelEl.textContent = `${unitsStr}u`;
+      }
+    };
+
+    const applyByIndex = ({ vialIdx, bacIdx, doseIdx }, { flash } = { flash: true }, { animMs } = {}) => {
       state.vialIdx = clampIdx(vialIdx, vial.options.length);
       state.bacIdx = clampIdx(bacIdx, bac.options.length);
       state.doseIdx = clampIdx(doseIdx, dose.options.length);
@@ -239,33 +329,21 @@
       const bacMl = bac.options[state.bacIdx] ?? 1;
       const doseMcg = dose.options[state.doseIdx] ?? 0;
 
-      const chip = getSelectedChip();
-      const syringeMl = Number.parseFloat(chip?.dataset?.syringeMl || '1') || 1;
-      const syringeUnits = Number.parseFloat(chip?.dataset?.syringeUnits || '100') || 100;
+      const { capMl, capUnits } = getCapacity();
+      const { units, volMl } = compute({ vialMg, bacMl, doseMcg });
 
-      const { units, volMl } = compute({ vialMg, bacMl, doseMcg, syringeMl, syringeUnits });
       const unitsStr = fmtUnits(units);
       const mlStr = fmtMl(volMl);
 
       if (unitsEl) unitsEl.textContent = unitsStr;
       if (volumeEl) volumeEl.textContent = mlStr;
       if (volumeMiniEl) volumeMiniEl.textContent = mlStr;
-      if (injectSubEl) injectSubEl.textContent = `${unitsStr} units (${Number(syringeMl).toFixed(1)} mL (${syringeUnits} units))`;
+      if (injectSubEl) injectSubEl.textContent = `${unitsStr} units (${Number(capMl).toFixed(1)} mL (${capUnits} units))`;
 
-      if (markerEl) {
-        if (Number.isFinite(animMs)) markerEl.style.transitionDuration = `${Math.max(0, animMs)}ms`;
-        else markerEl.style.transitionDuration = '';
-
-        const pct = Math.max(0, Math.min(100, units));
-        markerEl.style.setProperty('--x', pct.toFixed(2));
-      }
-      if (markerLabelEl) {
-        markerLabelEl.textContent = unitsStr;
-      }
+      setSyringeSvg({ units });
 
       if (flash && !reduce) {
         calc.classList.remove('calc--flash');
-        // Force reflow so the animation restarts reliably.
         void calc.offsetHeight;
         calc.classList.add('calc--flash');
         window.setTimeout(() => calc.classList.remove('calc--flash'), 740);
@@ -293,20 +371,11 @@
       { vialMg: 6, bacMl: 3, doseMcg: 300, syringeUnits: 100 },
     ];
 
-    const setStaticEnd = () => {
-      // Match the screenshot default: 1mL / 100u selected.
-      const chip100 = chipEls.find((b) => b.dataset.syringeUnits === '100') || chipEls[0];
-      setSelectedChip(chip100);
-      setCalcState({ vialMg: 5, bacMl: 2, doseMcg: 250 }, { flash: false });
-    };
-
     const idxForPreset = (p) => ({
       vialIdx: Math.max(0, vial.options.indexOf(p.vialMg)),
       bacIdx: Math.max(0, bac.options.indexOf(p.bacMl)),
       doseIdx: Math.max(0, dose.options.indexOf(p.doseMcg)),
     });
-
-    const stepToward = (cur, target) => (cur === target ? cur : cur + Math.sign(target - cur));
 
     const animateToPreset = async (preset, { tickMs = 120 } = {}) => {
       const target = idxForPreset(preset);
@@ -316,12 +385,12 @@
         const chip = chipEls.find((b) => b.dataset.syringeUnits === want);
         if (chip) {
           setSelectedChip(chip);
+          renderTicks();
           applyByIndex({ ...state }, { flash: false }, { animMs: tickMs });
           await sleep(tickMs);
         }
       }
 
-      // Keep the wheel + fill visually in sync with each tick.
       while (
         state.vialIdx !== target.vialIdx ||
         state.bacIdx !== target.bacIdx ||
@@ -373,15 +442,29 @@
       });
     }
 
+    for (const b of chipEls) {
+      b.addEventListener('click', () => {
+        if (reduce) return;
+        bumpInteract();
+        setSelectedChip(b);
+        renderTicks();
+        applyByIndex({ ...state }, { flash: false });
+      });
+    }
+
+    const setStaticEnd = () => {
+      const chip100 = chipEls.find((b) => b.dataset.syringeUnits === '100') || chipEls[0];
+      setSelectedChip(chip100);
+      renderTicks();
+      setCalcState({ vialMg: 5, bacMl: 2, doseMcg: 250 }, { flash: false });
+    };
+
     startWhenVisible(calc, () => {
-      if (reduce) {
-        setStaticEnd();
-        return;
-      }
+      setStaticEnd();
+      if (reduce) return;
 
       (async () => {
         let i = 0;
-        setCalcState(presets[0], { flash: false });
         await sleep(900);
 
         while (true) {

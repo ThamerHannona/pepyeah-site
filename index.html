@@ -648,10 +648,7 @@ section{padding:90px 0;position:relative}
 .proto--logged .proto-toast{opacity:1;transform:none}
 
 /* Syringe / reconstitution calculator demo */
-.dose-head{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  padding:8px 6px 4px;
-}
+.dose-head{display:flex;align-items:flex-start;justify-content:space-between;padding:8px 6px 4px}
 .dose-head .ttl{font-size:18px;font-weight:900;letter-spacing:-.02em}
 .dose-head .sub{margin-top:3px;font-size:11.5px;color:rgba(196,199,218,.82)}
 .dose-x{
@@ -744,6 +741,7 @@ section{padding:90px 0;position:relative}
   font-size:13.5px;
   color:rgba(255,255,255,.52);
 }
+.wi small{font-size:10px;color:rgba(196,199,218,.7);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-left:4px}
 .inject-card{
   margin:10px 6px 8px;
   padding:14px 14px 12px;
@@ -773,85 +771,18 @@ section{padding:90px 0;position:relative}
 .draw-top .b{min-width:110px;text-align:right}
 .draw-top .b .ml{font-size:12px;font-weight:900;color:rgba(196,199,218,.82)}
 .draw-top .b .syr{margin-top:4px;font-size:12px;color:rgba(196,199,218,.62)}
-
-.scale{margin-top:12px}
-.scale-axis{
-  position:relative;
-  height:70px;
-  border-radius:14px;
-  background:rgba(0,0,0,.14);
-  border:1px solid rgba(255,255,255,.10);
-  overflow:hidden;
-}
-.scale-axis::before{
-  content:"";
-  position:absolute;left:18px;right:18px;top:34px;height:2px;
-  background:rgba(255,255,255,.24);
-}
-.scale-axis .tick{
-  position:absolute;top:26px;width:1px;height:16px;background:rgba(255,255,255,.18);
-}
-.scale-axis .t0{left:18px}
-.scale-axis .t20{left:calc(18px + (100% - 36px) * .20)}
-.scale-axis .t40{left:calc(18px + (100% - 36px) * .40)}
-.scale-axis .t60{left:calc(18px + (100% - 36px) * .60)}
-.scale-axis .t80{left:calc(18px + (100% - 36px) * .80)}
-.scale-axis .t100{left:calc(100% - 18px)}
-.scale-axis .labels{
-  position:absolute;left:18px;right:18px;top:8px;
-  display:flex;justify-content:space-between;
-  font-size:9px;font-weight:900;letter-spacing:.14em;
-  color:rgba(196,199,218,.55);
-}
-.marker{
-  position:absolute;
-  left:18px;
-  top:0;
-  transform:translateX(calc((100% - 36px) * (var(--x) / 100)));
-  transition: transform 140ms cubic-bezier(.2,.9,.2,1);
-  width:0;
-}
-.marker .stem{
-  position:absolute;left:0;top:22px;
-  width:2px;height:26px;border-radius:99px;
-  background:rgba(16,185,129,.9);
-  box-shadow:0 0 14px rgba(16,185,129,.35);
-}
-.marker .dot{
-  position:absolute;left:-4px;top:48px;
-  width:10px;height:10px;border-radius:99px;
-  background:rgba(16,185,129,.95);
-  box-shadow:0 0 18px rgba(16,185,129,.35);
-}
-.marker .tag{
-  position:absolute;left:-12px;top:52px;
-  transform:translateY(12px);
-  font-size:9px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(16,185,129,.95);
-}
-.scale-syr{
+.sg-svg{margin-top:12px}
+.sg-svg svg{width:100%;height:auto;display:block}
+.sg-note{
   margin-top:10px;
-  height:18px;
-  display:flex;align-items:center;gap:10px;
-  opacity:.7;
-}
-.scale-syr .bar{
-  flex:1;
-  height:4px;
-  border-radius:99px;
-  background:rgba(255,255,255,.16);
-}
-.scale-syr .plunger{
-  width:46px;height:8px;border-radius:99px;
-  background:rgba(255,255,255,.20);
-}
-.draw-foot{
-  margin-top:12px;
   font-size:11.5px;
   color:rgba(196,199,218,.68);
   text-align:center;
   line-height:1.35;
 }
+.draw-card.sg--over{border-color:rgba(245,158,11,.34)}
+.draw-card.sg--over .draw-top .k{color:rgba(251,191,36,.92)}
+.draw-card.sg--over .draw-top .v .n{color:#FDE68A}
 @keyframes result-flash{
   0%{box-shadow:0 0 0 rgba(16,185,129,0)}
   28%{box-shadow:0 0 0 6px rgba(16,185,129,.08)}
@@ -873,7 +804,7 @@ section{padding:90px 0;position:relative}
 }
 @media (prefers-reduced-motion: reduce){
   .js .proto-caret{animation:none}
-  .proto-items,.wheel-items,.marker{transition:none}
+  .proto-items,.wheel-items{transition:none}
   .proto-toast{animation:none}
   .inject-card,.draw-card{animation:none}
 }
@@ -1629,7 +1560,7 @@ footer a:hover{color:#fff}
               <div class="screen">
                 <div class="notch"></div>
                 <div class="statusbar"><span>9:41</span><span class="ic">●●●</span></div>
-                <div class="screen-body">
+                <div class="screen-body scroll">
                   <div class="dose-head">
                     <div class="l">
                       <div class="ttl">Dose Calculator</div>
@@ -1640,13 +1571,13 @@ footer a:hover{color:#fff}
 
                   <div class="dose-chips" role="tablist" aria-label="Syringe size">
                     <button class="chip" type="button" data-syringe-chip data-syringe-ml="0.3" data-syringe-units="30" role="tab" aria-selected="false">
-                      <span class="t1">0.3 mL</span><span class="t2">30u</span>
+                      <span class="t1">0.3 mL</span><span class="t2">30 units</span>
                     </button>
                     <button class="chip" type="button" data-syringe-chip data-syringe-ml="0.5" data-syringe-units="50" role="tab" aria-selected="false">
-                      <span class="t1">0.5 mL</span><span class="t2">50u</span>
+                      <span class="t1">0.5 mL</span><span class="t2">50 units</span>
                     </button>
-                    <button class="chip sel" type="button" data-syringe-chip data-syringe-ml="1" data-syringe-units="100" role="tab" aria-selected="true">
-                      <span class="t1">1 mL</span><span class="t2">100u</span>
+                    <button class="chip sel" type="button" data-syringe-chip data-syringe-ml="1.0" data-syringe-units="100" role="tab" aria-selected="true">
+                      <span class="t1">1.0 mL</span><span class="t2">100 units</span>
                     </button>
                   </div>
 
@@ -1712,30 +1643,73 @@ footer a:hover{color:#fff}
                       </div>
                     </div>
 
-                    <div class="scale" aria-hidden="true">
-                      <div class="scale-axis">
-                        <span class="tick t0"></span>
-                        <span class="tick t20"></span>
-                        <span class="tick t40"></span>
-                        <span class="tick t60"></span>
-                        <span class="tick t80"></span>
-                        <span class="tick t100"></span>
-                        <div class="labels">
-                          <span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span>
-                        </div>
-                        <div class="marker" data-calc-marker style="--x:10">
-                          <div class="stem"></div>
-                          <div class="dot"></div>
-                          <div class="tag"><span data-calc-marker-label>10</span>u</div>
-                        </div>
-                      </div>
-                      <div class="scale-syr">
-                        <div class="bar"></div>
-                        <div class="plunger"></div>
-                      </div>
+                    <div class="sg-svg" aria-hidden="true">
+                      <svg viewBox="0 0 340 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <linearGradient id="sgFill" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0" stop-color="#A3E635" stop-opacity="0.90"/>
+                            <stop offset="1" stop-color="#10B981" stop-opacity="0.75"/>
+                          </linearGradient>
+                          <linearGradient id="sgFillOver" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0" stop-color="#FBBF24" stop-opacity="0.92"/>
+                            <stop offset="1" stop-color="#F59E0B" stop-opacity="0.78"/>
+                          </linearGradient>
+                          <filter id="sgGlow" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation="2.4" result="blur"/>
+                            <feColorMatrix in="blur" type="matrix" values="
+                              0 0 0 0 0.64
+                              0 0 0 0 0.92
+                              0 0 0 0 0.21
+                              0 0 0 0.78 0" result="g"/>
+                            <feMerge>
+                              <feMergeNode in="g"/>
+                              <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                          </filter>
+                          <filter id="sgGlowOver" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation="2.4" result="blur"/>
+                            <feColorMatrix in="blur" type="matrix" values="
+                              0 0 0 0 0.98
+                              0 0 0 0 0.76
+                              0 0 0 0 0.20
+                              0 0 0 0.78 0" result="g"/>
+                            <feMerge>
+                              <feMergeNode in="g"/>
+                              <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                          </filter>
+                        </defs>
+
+                        <!-- Needle -->
+                        <path d="M34 64H12" stroke="rgba(203,213,225,.72)" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M16 58L12 64L16 70" stroke="rgba(203,213,225,.72)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+                        <!-- Barrel outer -->
+                        <rect x="52" y="50" width="238" height="28" rx="7" stroke="rgba(148,163,184,.42)" stroke-width="2"/>
+                        <!-- Barrel inner -->
+                        <rect x="55" y="53" width="232" height="22" rx="6" stroke="rgba(148,163,184,.28)" stroke-width="1.4"/>
+
+                        <!-- Fill -->
+                        <rect x="55" y="53" width="0" height="22" rx="6" fill="url(#sgFill)" opacity="0.92" data-sg-fill/>
+
+                        <!-- Ticks + labels -->
+                        <g data-sg-ticks></g>
+
+                        <!-- Target marker -->
+                        <line x1="55" y1="46" x2="55" y2="82" stroke="rgba(163,230,53,.95)" stroke-width="2.2" filter="url(#sgGlow)" data-sg-marker/>
+                        <text x="55" y="106" text-anchor="middle" font-size="12" font-weight="900" fill="rgba(163,230,53,.95)" data-sg-marker-label>10u</text>
+
+                        <!-- Left cap -->
+                        <rect x="44" y="52" width="10" height="24" rx="5" fill="rgba(148,163,184,.35)"/>
+                        <!-- Plunger rod -->
+                        <rect x="290" y="56" width="20" height="16" rx="6" stroke="rgba(148,163,184,.42)" stroke-width="2"/>
+                        <!-- Plunger handle -->
+                        <rect x="310" y="48" width="10" height="32" rx="4" fill="rgba(148,163,184,.26)"/>
+                        <rect x="320" y="44" width="10" height="40" rx="4" stroke="rgba(148,163,184,.42)" stroke-width="2"/>
+                      </svg>
                     </div>
 
-                    <div class="draw-foot">
+                    <div class="sg-note">
                       Match this number to the same unit line on your syringe.<br/>
                       Verify the syringe is U-100.
                     </div>
