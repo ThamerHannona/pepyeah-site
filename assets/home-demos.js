@@ -153,54 +153,65 @@
     const bac = getOptions('bac');
     const dose = getOptions('dose');
 
-    const injectMlEl = calc.querySelector('[data-inject-ml]');
-    const injectSubEl = calc.querySelector('[data-inject-sub]');
-
-    const sgRoot = calc.querySelector('[data-sg]');
-    const sgUnitsEl = calc.querySelector('[data-sg-units]');
-    const sgMlEl = calc.querySelector('[data-sg-ml]');
-    const sgTypeEl = calc.querySelector('[data-sg-type]');
+    const unitsEl = calc.querySelector('[data-calc-units]');
+    const volumeEl = calc.querySelector('[data-calc-volume]');
+    const volumeMiniEl = calc.querySelector('[data-calc-volume-mini]');
+    const injectSubEl = calc.querySelector('[data-calc-inject-sub]');
+    const drawCardEl = calc.querySelector('[data-calc-draw]');
 
     const sgTicksEl = calc.querySelector('[data-sg-ticks]');
     const sgFillEl = calc.querySelector('[data-sg-fill]');
     const sgMarkerEl = calc.querySelector('[data-sg-marker]');
     const sgMarkerLabelEl = calc.querySelector('[data-sg-marker-label]');
 
-    const chipEls = Array.from(calc.querySelectorAll('[data-cap-chip]'));
-    let capUnits = 100;
-    let capMl = 1.0;
+    const chipEls = Array.from(calc.querySelectorAll('[data-syringe-chip]'));
+    const getSelectedChip = () =>
+      chipEls.find((b) => b.classList.contains('sel') || b.getAttribute('aria-selected') === 'true') ||
+      chipEls[chipEls.length - 1] ||
+      null;
+
+    const setSelectedChip = (btn) => {
+      if (!btn) return;
+      for (const b of chipEls) {
+        const sel = b === btn;
+        b.classList.toggle('sel', sel);
+        b.setAttribute('aria-selected', sel ? 'true' : 'false');
+      }
+    };
+
+    let userInteractingUntil = 0;
+    const bumpInteract = () => {
+      userInteractingUntil = Date.now() + 8000;
+    };
 
     const fmtUnits = (u) => {
       const rounded = Math.round(u * 2) / 2;
       return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
     };
+    const fmtMl = (ml) => ml.toFixed(3);
 
-    const geom = {
-      innerX: 55,
-      innerY: 53,
-      innerW: 232,
-      innerH: 22,
-      tickTopY: 50,
-      labelY: 44,
-      markerTopY: 46,
-      markerBottomY: 82,
-      markerLabelY: 106,
-    };
+    const geom = { innerX: 55, innerW: 232, tickTopY: 50, labelY: 44, markerLabelY: 106 };
 
     const clearSvgChildren = (el) => {
       if (!el) return;
       while (el.firstChild) el.removeChild(el.firstChild);
     };
-
     const svgEl = (name, attrs = {}) => {
       const el = document.createElementNS(SVG_NS, name);
       for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
       return el;
     };
 
-    const getTickConfig = (max) => {
-      if (max === 100) return { minor: 1, mid: 5, major: 10, labelEvery: 20 };
-      if (max === 50) return { minor: 1, mid: 5, major: 10, labelEvery: 10 };
+    const getCapacity = () => {
+      const chip = getSelectedChip();
+      const capMl = Number.parseFloat(chip?.dataset?.syringeMl || '1') || 1;
+      const capUnits = Number.parseFloat(chip?.dataset?.syringeUnits || '100') || 100;
+      return { capMl, capUnits };
+    };
+
+    const getTickConfig = (maxUnits) => {
+      if (maxUnits === 100) return { minor: 1, mid: 5, major: 10, labelEvery: 20 };
+      if (maxUnits === 50) return { minor: 1, mid: 5, major: 10, labelEvery: 10 };
       return { minor: 1, mid: 5, major: 5, labelEvery: 10 };
     };
 
@@ -208,6 +219,7 @@
       if (!sgTicksEl) return;
       clearSvgChildren(sgTicksEl);
 
+      const { capUnits } = getCapacity();
       const { minor, mid, major, labelEvery } = getTickConfig(capUnits);
       const stroke = 'rgba(226,232,240,.34)';
       const fontFill = 'rgba(196,199,218,.82)';
@@ -251,19 +263,10 @@
       }
     };
 
-    const setCapacity = (nextUnits, nextMl) => {
-      const u = Number.parseInt(String(nextUnits), 10);
-      const m = Number.parseFloat(String(nextMl));
-      if (!Number.isFinite(u) || !Number.isFinite(m)) return;
-
-      capUnits = u;
-      capMl = m;
-      for (const b of chipEls) b.setAttribute('aria-pressed', b.dataset.capChip === String(u) ? 'true' : 'false');
-      renderTicks();
-    };
-
-    const setWheelPos = (wheel, pos) => {
+    const setWheelPos = (wheel, pos, { animMs } = {}) => {
       if (!wheel.wrap) return;
+      if (Number.isFinite(animMs)) wheel.wrap.style.transitionDuration = `${Math.max(0, animMs)}ms`;
+      else wheel.wrap.style.transitionDuration = '';
       wheel.wrap.style.setProperty('--pos', String(pos));
     };
 
@@ -274,19 +277,16 @@
       return { units, volMl };
     };
 
-    const setSyringeGuideState = ({ units, volMl }) => {
+    const state = { vialIdx: 0, bacIdx: 0, doseIdx: 0 };
+    const clampIdx = (idx, len) => Math.max(0, Math.min(idx, Math.max(0, len - 1)));
+    const stepToward = (cur, target) => (cur === target ? cur : cur + Math.sign(target - cur));
+
+    const setSyringeSvg = ({ units }) => {
+      const { capUnits } = getCapacity();
       const unitsStr = fmtUnits(units);
-      const mlStr = volMl.toFixed(3);
-
-      if (injectMlEl) injectMlEl.textContent = mlStr;
-      if (injectSubEl) injectSubEl.textContent = `${unitsStr} units (${capMl.toFixed(1)} mL (${capUnits} units))`;
-
-      if (sgUnitsEl) sgUnitsEl.textContent = unitsStr;
-      if (sgMlEl) sgMlEl.textContent = mlStr;
-      if (sgTypeEl) sgTypeEl.textContent = 'U-100 syringe';
 
       const over = units > capUnits + 1e-6;
-      if (sgRoot) sgRoot.classList.toggle('sg--over', over);
+      if (drawCardEl) drawCardEl.classList.toggle('sg--over', over);
 
       const clamped = Math.max(0, Math.min(units, capUnits));
       const frac = capUnits > 0 ? clamped / capUnits : 0;
@@ -316,64 +316,164 @@
       }
     };
 
-    const setCalcState = ({ vialMg, bacMl, doseMcg }, { flash } = { flash: true }) => {
-      const vialIdx = vial.options.indexOf(vialMg);
-      const bacIdx = bac.options.indexOf(bacMl);
-      const doseIdx = dose.options.indexOf(doseMcg);
+    const applyByIndex = ({ vialIdx, bacIdx, doseIdx }, { flash } = { flash: true }, { animMs } = {}) => {
+      state.vialIdx = clampIdx(vialIdx, vial.options.length);
+      state.bacIdx = clampIdx(bacIdx, bac.options.length);
+      state.doseIdx = clampIdx(doseIdx, dose.options.length);
 
-      if (vialIdx >= 0) setWheelPos(vial, vialIdx);
-      if (bacIdx >= 0) setWheelPos(bac, bacIdx);
-      if (doseIdx >= 0) setWheelPos(dose, doseIdx);
+      setWheelPos(vial, state.vialIdx, { animMs });
+      setWheelPos(bac, state.bacIdx, { animMs });
+      setWheelPos(dose, state.doseIdx, { animMs });
 
+      const vialMg = vial.options[state.vialIdx] ?? 0;
+      const bacMl = bac.options[state.bacIdx] ?? 1;
+      const doseMcg = dose.options[state.doseIdx] ?? 0;
+
+      const { capMl, capUnits } = getCapacity();
       const { units, volMl } = compute({ vialMg, bacMl, doseMcg });
-      setSyringeGuideState({ units, volMl });
+
+      const unitsStr = fmtUnits(units);
+      const mlStr = fmtMl(volMl);
+
+      if (unitsEl) unitsEl.textContent = unitsStr;
+      if (volumeEl) volumeEl.textContent = mlStr;
+      if (volumeMiniEl) volumeMiniEl.textContent = mlStr;
+      if (injectSubEl) injectSubEl.textContent = `${unitsStr} units (${Number(capMl).toFixed(1)} mL (${capUnits} units))`;
+
+      setSyringeSvg({ units });
 
       if (flash && !reduce) {
         calc.classList.remove('calc--flash');
-        // Force reflow so the animation restarts reliably.
         void calc.offsetHeight;
         calc.classList.add('calc--flash');
         window.setTimeout(() => calc.classList.remove('calc--flash'), 740);
       }
     };
 
+    const setCalcState = ({ vialMg, bacMl, doseMcg }, { flash } = { flash: true }) => {
+      const vialIdx = vial.options.indexOf(vialMg);
+      const bacIdx = bac.options.indexOf(bacMl);
+      const doseIdx = dose.options.indexOf(doseMcg);
+      applyByIndex(
+        {
+          vialIdx: vialIdx >= 0 ? vialIdx : state.vialIdx,
+          bacIdx: bacIdx >= 0 ? bacIdx : state.bacIdx,
+          doseIdx: doseIdx >= 0 ? doseIdx : state.doseIdx,
+        },
+        { flash }
+      );
+    };
+
     const presets = [
-      { vialMg: 5, bacMl: 2, doseMcg: 250 },
-      { vialMg: 5, bacMl: 2, doseMcg: 150 },
-      { vialMg: 15, bacMl: 3, doseMcg: 300 },
-      { vialMg: 10, bacMl: 1, doseMcg: 200 },
+      { vialMg: 5, bacMl: 2, doseMcg: 250, syringeUnits: 100 },
+      { vialMg: 4.5, bacMl: 1.5, doseMcg: 225, syringeUnits: 50 },
+      { vialMg: 5.5, bacMl: 2.5, doseMcg: 275, syringeUnits: 30 },
+      { vialMg: 6, bacMl: 3, doseMcg: 300, syringeUnits: 100 },
     ];
 
-    let currentState = presets[0];
-    const setStaticEnd = () => setCalcState(presets[0], { flash: false });
+    const idxForPreset = (p) => ({
+      vialIdx: Math.max(0, vial.options.indexOf(p.vialMg)),
+      bacIdx: Math.max(0, bac.options.indexOf(p.bacMl)),
+      doseIdx: Math.max(0, dose.options.indexOf(p.doseMcg)),
+    });
+
+    const animateToPreset = async (preset, { tickMs = 120 } = {}) => {
+      const target = idxForPreset(preset);
+
+      if (typeof preset.syringeUnits === 'number' || typeof preset.syringeUnits === 'string') {
+        const want = String(preset.syringeUnits);
+        const chip = chipEls.find((b) => b.dataset.syringeUnits === want);
+        if (chip) {
+          setSelectedChip(chip);
+          renderTicks();
+          applyByIndex({ ...state }, { flash: false }, { animMs: tickMs });
+          await sleep(tickMs);
+        }
+      }
+
+      while (
+        state.vialIdx !== target.vialIdx ||
+        state.bacIdx !== target.bacIdx ||
+        state.doseIdx !== target.doseIdx
+      ) {
+        applyByIndex(
+          {
+            vialIdx: stepToward(state.vialIdx, target.vialIdx),
+            bacIdx: stepToward(state.bacIdx, target.bacIdx),
+            doseIdx: stepToward(state.doseIdx, target.doseIdx),
+          },
+          { flash: false },
+          { animMs: tickMs }
+        );
+        await sleep(tickMs);
+      }
+
+      applyByIndex(target, { flash: true });
+    };
+
+    const nudgeWheel = (key, dir) => {
+      bumpInteract();
+      if (key === 'vial') applyByIndex({ ...state, vialIdx: state.vialIdx + dir }, { flash: false });
+      if (key === 'bac') applyByIndex({ ...state, bacIdx: state.bacIdx + dir }, { flash: false });
+      if (key === 'dose') applyByIndex({ ...state, doseIdx: state.doseIdx + dir }, { flash: false });
+    };
+
+    for (const key of ['vial', 'bac', 'dose']) {
+      const win = calc.querySelector(`[data-wheel="${key}"] .wheel-window`);
+      if (!win) continue;
+
+      win.addEventListener(
+        'wheel',
+        (e) => {
+          if (reduce) return;
+          e.preventDefault();
+          const dir = e.deltaY > 0 ? 1 : -1;
+          nudgeWheel(key, dir);
+        },
+        { passive: false }
+      );
+
+      win.addEventListener('pointerdown', (e) => {
+        if (reduce) return;
+        const r = win.getBoundingClientRect();
+        const y = e.clientY - r.top;
+        const dir = y > r.height / 2 ? 1 : -1;
+        nudgeWheel(key, dir);
+      });
+    }
+
+    for (const b of chipEls) {
+      b.addEventListener('click', () => {
+        if (reduce) return;
+        bumpInteract();
+        setSelectedChip(b);
+        renderTicks();
+        applyByIndex({ ...state }, { flash: false });
+      });
+    }
+
+    const setStaticEnd = () => {
+      const chip100 = chipEls.find((b) => b.dataset.syringeUnits === '100') || chipEls[0];
+      setSelectedChip(chip100);
+      renderTicks();
+      setCalcState({ vialMg: 5, bacMl: 2, doseMcg: 250 }, { flash: false });
+    };
 
     startWhenVisible(calc, () => {
-      // Initialize syringe capacity (defaults to the pressed chip).
-      const pressed = chipEls.find((b) => b.getAttribute('aria-pressed') === 'true') || chipEls[2] || chipEls[0];
-      if (pressed) setCapacity(pressed.dataset.capChip, pressed.dataset.capMl);
-      for (const b of chipEls) {
-        b.addEventListener('click', () => {
-          setCapacity(b.dataset.capChip, b.dataset.capMl);
-          // Re-apply current values against the new capacity.
-          setCalcState(currentState, { flash: false });
-        });
-      }
-
-      if (reduce) {
-        setStaticEnd();
-        return;
-      }
+      setStaticEnd();
+      if (reduce) return;
 
       (async () => {
         let i = 0;
-        currentState = presets[0];
-        setCalcState(currentState, { flash: false });
         await sleep(900);
 
         while (true) {
+          if (Date.now() < userInteractingUntil) {
+            await sleep(500);
+            continue;
+          }
           i = (i + 1) % presets.length;
-          currentState = presets[i];
-          setCalcState(currentState);
+          await animateToPreset(presets[i]);
           await sleep(2800);
         }
       })();
