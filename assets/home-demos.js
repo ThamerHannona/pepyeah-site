@@ -542,53 +542,6 @@
   }
 
   // ---------------- Progress|History screen carousel (marketing creative) ----------------
-  const progressCarousels = Array.from(document.querySelectorAll('[data-progress-carousel]'));
-  for (const wrap of progressCarousels) {
-    const viewport = wrap.querySelector('[data-pc-viewport]');
-    const dots = Array.from(wrap.querySelectorAll('[data-pc-dot]'));
-    if (!viewport) continue;
-
-    const setDots = (idx) => {
-      for (let i = 0; i < dots.length; i++) dots[i].setAttribute('aria-current', i === idx ? 'true' : 'false');
-    };
-
-    const width = () => viewport.clientWidth || 1;
-    const clampIdx = (idx) => Math.max(0, Math.min(idx, 1));
-
-    let idx = 0;
-    let pauseUntil = 0;
-
-    const goTo = (next, { behavior = 'smooth' } = {}) => {
-      idx = clampIdx(next);
-      viewport.scrollTo({ left: idx * width(), behavior });
-      setDots(idx);
-    };
-
-    const updateFromScroll = () => {
-      const next = clampIdx(Math.round(viewport.scrollLeft / width()));
-      if (next !== idx) {
-        idx = next;
-        setDots(idx);
-      }
-    };
-
-    viewport.addEventListener('scroll', () => {
-      pauseUntil = Date.now() + 8000;
-      updateFromScroll();
-    }, { passive: true });
-    viewport.addEventListener('pointerdown', () => {
-      pauseUntil = Date.now() + 8000;
-    }, { passive: true });
-
-    startWhenVisible(wrap, () => {
-      goTo(0, { behavior: 'auto' });
-      if (reduce) return;
-
-      window.setInterval(() => {
-        if (Date.now() < pauseUntil) return;
-        goTo((idx + 1) % 2);
-      }, 4200);
-    });
-  }
+  // (removed) Progress|History carousel overlay on marketing creative.
 })();
 
