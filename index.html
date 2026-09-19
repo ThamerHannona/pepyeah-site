@@ -478,6 +478,21 @@ section{padding:90px 0;position:relative}
 .demo-phone .statusbar{padding:12px 20px 4px;font-size:12px}
 .demo-phone .screen-body{padding:0 14px 14px}
 
+/* Dose calculator demo needs a little extra room so the syringe SVG isn't clipped */
+.demo-stage.calc{padding-bottom:26px}
+.demo-stage.calc .demo-phone{height:610px;transform:none}
+.demo-stage.calc .screen-body{padding:0 14px 16px}
+.demo-stage.calc .dose-head{padding:6px 6px 2px}
+.demo-stage.calc .dose-chips{padding:8px 6px 2px;gap:8px}
+.demo-stage.calc .dose-chips .chip{padding:8px 8px;border-radius:14px}
+.demo-stage.calc .dose-wheels{padding:8px 6px 4px;gap:10px}
+.demo-stage.calc .wheel{padding:9px 9px 7px}
+.demo-stage.calc .wheel-window{height:108px}
+.demo-stage.calc .inject-card{margin:8px 6px 6px;padding:12px 12px 10px}
+.demo-stage.calc .draw-card{margin:8px 6px 0;padding:12px 12px 12px}
+.demo-stage.calc .sg-svg{margin-top:10px}
+.demo-stage.calc .sg-note{margin-top:8px;font-size:11px}
+
 /* Protocol search → log demo */
 .proto-top{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 12px}
 .proto-top .title{font-size:16px;font-weight:800;letter-spacing:-.02em}
@@ -796,11 +811,23 @@ section{padding:90px 0;position:relative}
   .demo-copy{padding:8px 10px 0}
   .demo-stage{padding:0 0 10px}
   .demo-phone{transform:none}
+  .demo-stage.calc{padding-bottom:14px}
+  .demo-stage.calc .demo-phone{height:610px}
 }
 @media(max-width:720px){
   .creative--demo{padding:18px 16px}
   .demo-copy h3{font-size:20px}
   .demo-copy p{font-size:14px}
+}
+@media(max-width:480px){
+  .demo-stage.calc .demo-phone{height:760px}
+  .demo-stage.calc .inject-card .inject-v .n{font-size:28px}
+  .demo-stage.calc .draw-top .v .n{font-size:28px}
+  .demo-stage.calc .draw-top .v .u{font-size:15px}
+  .demo-stage.calc .draw-top .b{min-width:96px}
+  .demo-stage.calc .draw-card{padding:10px 10px 10px}
+  .demo-stage.calc .sg-svg{margin-top:8px}
+  .demo-stage.calc .sg-note{margin-top:7px;font-size:10.5px}
 }
 @media (prefers-reduced-motion: reduce){
   .js .proto-caret{animation:none}
@@ -980,7 +1007,7 @@ section{padding:90px 0;position:relative}
   .marketing-stack{gap:16px}
   .marketing-split{gap:14px}
 
-  .creative{
+  .creative:not(.creative--demo){
     border-radius:20px;
     height:min(72vh, 560px);
   }
@@ -1581,47 +1608,6 @@ footer a:hover{color:#fff}
                     </button>
                   </div>
 
-                  <div class="dose-wheels">
-                    <div class="wheel" data-wheel="vial">
-                      <div class="lbl">VIAL</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="vial">
-                          <div class="wi">4</div>
-                          <div class="wi">4.5</div>
-                          <div class="wi">5</div>
-                          <div class="wi">5.5</div>
-                          <div class="wi">6</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="wheel" data-wheel="bac">
-                      <div class="lbl">BAC WATER</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="bac">
-                          <div class="wi">1</div>
-                          <div class="wi">1.5</div>
-                          <div class="wi">2</div>
-                          <div class="wi">2.5</div>
-                          <div class="wi">3</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="wheel" data-wheel="dose">
-                      <div class="lbl">DOSE</div>
-                      <div class="wheel-window">
-                        <div class="wheel-items" data-wheel-items="dose">
-                          <div class="wi">200</div>
-                          <div class="wi">225</div>
-                          <div class="wi">250</div>
-                          <div class="wi">275</div>
-                          <div class="wi">300</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   <div class="inject-card" data-calc-inject>
                     <div class="inject-k">INJECT</div>
                     <div class="inject-v">
@@ -1712,6 +1698,47 @@ footer a:hover{color:#fff}
                     <div class="sg-note">
                       Match this number to the same unit line on your syringe.<br/>
                       Verify the syringe is U-100.
+                    </div>
+                  </div>
+
+                  <div class="dose-wheels">
+                    <div class="wheel" data-wheel="vial">
+                      <div class="lbl">VIAL</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="vial">
+                          <div class="wi">4</div>
+                          <div class="wi">4.5</div>
+                          <div class="wi">5</div>
+                          <div class="wi">5.5</div>
+                          <div class="wi">6</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="wheel" data-wheel="bac">
+                      <div class="lbl">BAC WATER</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="bac">
+                          <div class="wi">1</div>
+                          <div class="wi">1.5</div>
+                          <div class="wi">2</div>
+                          <div class="wi">2.5</div>
+                          <div class="wi">3</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="wheel" data-wheel="dose">
+                      <div class="lbl">DOSE</div>
+                      <div class="wheel-window">
+                        <div class="wheel-items" data-wheel-items="dose">
+                          <div class="wi">200</div>
+                          <div class="wi">225</div>
+                          <div class="wi">250</div>
+                          <div class="wi">275</div>
+                          <div class="wi">300</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
