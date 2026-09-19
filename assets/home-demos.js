@@ -215,6 +215,16 @@
       return { minor: 1, mid: 5, major: 5, labelEvery: 10 };
     };
 
+    const markWheelSelected = () => {
+      for (const key of ['vial', 'bac', 'dose']) {
+        const wheel = key === 'vial' ? vial : key === 'bac' ? bac : dose;
+        if (!wheel.wrap) continue;
+        const items = Array.from(wheel.wrap.querySelectorAll('.wi'));
+        const idx = key === 'vial' ? state.vialIdx : key === 'bac' ? state.bacIdx : state.doseIdx;
+        for (let i = 0; i < items.length; i++) items[i].classList.toggle('sel', i === idx);
+      }
+    };
+
     const renderTicks = () => {
       if (!sgTicksEl) return;
       clearSvgChildren(sgTicksEl);
@@ -298,7 +308,7 @@
         sgFillEl.setAttribute('fill', over ? 'url(#sgFillOver)' : 'url(#sgFill)');
       }
 
-      const markerStroke = over ? 'rgba(251,191,36,.92)' : 'rgba(163,230,53,.95)';
+      const markerStroke = over ? 'rgba(251,191,36,.92)' : 'rgba(226,232,240,.92)';
       const markerFilter = over ? 'url(#sgGlowOver)' : 'url(#sgGlow)';
 
       if (sgMarkerEl) {
@@ -311,7 +321,7 @@
       if (sgMarkerLabelEl) {
         sgMarkerLabelEl.setAttribute('x', x.toFixed(2));
         sgMarkerLabelEl.setAttribute('y', String(geom.markerLabelY));
-        sgMarkerLabelEl.setAttribute('fill', markerStroke);
+        sgMarkerLabelEl.setAttribute('fill', over ? 'rgba(251,191,36,.92)' : 'rgba(163,230,53,.95)');
         sgMarkerLabelEl.textContent = `${unitsStr}u`;
       }
     };
@@ -324,6 +334,7 @@
       setWheelPos(vial, state.vialIdx, { animMs });
       setWheelPos(bac, state.bacIdx, { animMs });
       setWheelPos(dose, state.doseIdx, { animMs });
+      markWheelSelected();
 
       const vialMg = vial.options[state.vialIdx] ?? 0;
       const bacMl = bac.options[state.bacIdx] ?? 1;
