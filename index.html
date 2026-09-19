@@ -496,71 +496,7 @@ section{padding:90px 0;position:relative}
 }
 
 /* Screen-only carousel over the phone screen (marketing progress creative) */
-.phone-screen-carousel{
-  position:absolute;
-  left:29.8%;
-  top:28.9%;
-  width:49.1%;
-  height:58.1%;
-  z-index:2;
-  border-radius:26px;
-  overflow:hidden;
-  background:#070812;
-  box-shadow:0 24px 70px -40px rgba(0,0,0,.85);
-}
-.phone-screen-carousel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:26px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-  pointer-events:none;
-  z-index:3;
-}
-.pc-viewport{
-  width:100%;
-  height:100%;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-}
-.pc-track{
-  display:flex;
-  width:200%;
-  height:100%;
-}
-.pc-slide{
-  flex:0 0 100%;
-  height:100%;
-  scroll-snap-align:start;
-  position:relative;
-}
-.pc-slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transform:translateZ(0) scale(1.08);
-}
-.pc-dots{
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  display:flex;
-  gap:6px;
-  z-index:4;
-}
-.pc-dot{
-  width:7px;height:7px;border-radius:999px;
-  background:rgba(255,255,255,.28);
-  box-shadow:0 6px 18px -12px rgba(0,0,0,.8);
-}
-.pc-dot[aria-current="true"]{background:rgba(163,230,53,.92)}
-
-/* Reduced motion: keep first slide static */
-.rm .phone-screen-carousel .pc-viewport{overflow:hidden}
-.rm .phone-screen-carousel .pc-dots{display:none}
+/* (removed) Progress|History screen carousel overlay — kept static creative instead */
 
 /* ===== Animated micro-demos (homepage) ===== */
 .creative--demo{
@@ -1711,23 +1647,6 @@ footer a:hover{color:#fff}
       <figure class="creative" data-reveal data-reveal-delay="80">
         <div class="creative-stack">
           <img src="assets/marketing/feature-builder.png" alt="Your progress. In perspective. Weight, history and daily trends." loading="lazy" decoding="async" />
-
-          <div class="phone-screen-carousel" data-progress-carousel aria-label="Progress screens carousel">
-            <div class="pc-viewport" data-pc-viewport>
-              <div class="pc-track" data-pc-track>
-                <div class="pc-slide">
-                  <img src="assets/marketing/progress-screen.png" alt="Progress screen" loading="lazy" decoding="async" />
-                </div>
-                <div class="pc-slide">
-                  <img src="assets/marketing/history-screen.png" alt="History screen" loading="lazy" decoding="async" />
-                </div>
-              </div>
-            </div>
-            <div class="pc-dots" aria-hidden="true">
-              <span class="pc-dot" data-pc-dot aria-current="true"></span>
-              <span class="pc-dot" data-pc-dot aria-current="false"></span>
-            </div>
-          </div>
         </div>
       </figure>
       <figure class="creative" data-reveal data-reveal-delay="100">
