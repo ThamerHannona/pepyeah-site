@@ -433,6 +433,12 @@
       const win = calc.querySelector(`[data-wheel="${key}"] .wheel-window`);
       if (!win) continue;
 
+      const wheelStepPx = 28;
+      let dragActive = false;
+      let dragStartY = 0;
+      let lastY = 0;
+      let accum = 0;
+
       win.addEventListener(
         'wheel',
         (e) => {
@@ -446,11 +452,55 @@
 
       win.addEventListener('pointerdown', (e) => {
         if (reduce) return;
-        const r = win.getBoundingClientRect();
-        const y = e.clientY - r.top;
-        const dir = y > r.height / 2 ? 1 : -1;
-        nudgeWheel(key, dir);
+        dragActive = true;
+        dragStartY = e.clientY;
+        lastY = e.clientY;
+        accum = 0;
+
+        try {
+          win.setPointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
       });
+
+      win.addEventListener('pointermove', (e) => {
+        if (reduce || !dragActive) return;
+        e.preventDefault();
+
+        const dy = e.clientY - lastY;
+        lastY = e.clientY;
+        accum += dy;
+
+        // Match a natural "picker" feel: swipe up -> next value (dir +1)
+        while (accum <= -wheelStepPx) {
+          nudgeWheel(key, 1);
+          accum += wheelStepPx;
+        }
+        while (accum >= wheelStepPx) {
+          nudgeWheel(key, -1);
+          accum -= wheelStepPx;
+        }
+      });
+
+      const endDrag = (e) => {
+        if (reduce) return;
+        if (!dragActive) return;
+        dragActive = false;
+
+        // If it was basically a tap, keep the old behavior: tap top/bottom nudges once.
+        const moved = Math.abs((e?.clientY ?? lastY) - dragStartY);
+        if (moved < 6) {
+          const r = win.getBoundingClientRect();
+          const y = (e?.clientY ?? lastY) - r.top;
+          const dir = y > r.height / 2 ? 1 : -1;
+          nudgeWheel(key, dir);
+        }
+      };
+
+      win.addEventListener('pointerup', endDrag);
+      win.addEventListener('pointercancel', endDrag);
+      win.addEventListener('lostpointercapture', endDrag);
     }
 
     for (const b of chipEls) {
