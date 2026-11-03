@@ -1257,6 +1257,20 @@ footer a:hover{color:#fff}
 
 /* Hide scrollbars in firefox */
 *{scrollbar-width:none}
+
+/* Store badges (App Store live, Google Play coming soon) */
+.store-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.store-badge{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 20px 0 16px;border-radius:12px;background:#000;border:1px solid rgba(255,255,255,.55);color:#fff;font-weight:600;font-size:19px;letter-spacing:-.01em;line-height:1;transition:.2s transform,.2s border-color}
+.store-badge small{display:block;font-size:11px;font-weight:500;letter-spacing:.01em;text-transform:none;color:#fff;margin-bottom:3px}
+a.store-badge:hover{transform:translateY(-1px);border-color:#fff}
+.store-badge-soon{opacity:.45;cursor:default;pointer-events:none;filter:grayscale(1)}
+/* Calmer landing: more air, one clear CTA */
+section{padding:120px 0}
+.hero{padding-bottom:40px}
+.hero .lead{max-width:600px;margin-left:auto;margin-right:auto}
+.hero-ctas{margin-bottom:36px}
+.section-head{margin-bottom:56px}
+@media (max-width:720px){section{padding:76px 0}.store-badge{height:50px;font-size:17px}}
 </style>
 </head>
 <body>
@@ -1276,7 +1290,7 @@ footer a:hover{color:#fff}
   </nav>
   <div class="nav-right">
     <a href="/support/" class="btn btn-ghost">Support</a>
-    <a href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" class="btn btn-primary">Request TestFlight
+    <a href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" class="btn btn-primary">Download
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </div>
@@ -1285,19 +1299,21 @@ footer a:hover{color:#fff}
 <!-- ============== HERO ============== -->
 <section class="hero">
   <div class="container">
-    <span class="eyebrow"><span class="dot"></span>Protocol companion · iOS testing · App Store soon</span>
+    <span class="eyebrow"><span class="dot"></span>Now on the App Store</span>
     <h1>Your routine. <em>One powerful app.</em></h1>
     <p class="lead">Track doses (injectable + oral), meals with photos + macros, progress signals (weight, sleep, hydration, side effects), recovery metrics, and exportable PDF day reports — with streaks, reminders, and a knowledge layer built for consistency.</p>
 
     <div class="hero-ctas" id="download">
-      <a class="hero-store coming-soon" href="#" aria-disabled="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M16.365 1.43c0 1.14-.46 2.24-1.21 3.04-.81.86-2.12 1.5-3.2 1.42-.13-1.1.42-2.24 1.16-3.04C13.95 1.94 15.32 1.4 16.365 1.43zM20.5 17.3c-.62 1.36-.92 1.97-1.72 3.18-1.12 1.7-2.7 3.82-4.66 3.84-1.74.02-2.19-1.13-4.55-1.12-2.36.01-2.86 1.14-4.6 1.12-1.96-.02-3.45-1.93-4.57-3.63C-1.6 17.05-1.84 11.4 1.05 8.5c1.65-1.66 4.1-1.92 5.62-.95 1.04.66 1.41.95 2.66.95 1.24 0 1.5-.34 2.7-.97 1.05-.55 3.34-1 4.96.49 3.21 2.91 1.66 7.96-1.49 9.28z"/></svg>
-        <span><small>Coming soon on the</small>App Store</span>
-      </a>
-      <a class="hero-store" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A3E635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-        <span><small>Invite-only</small>Request TestFlight</span>
-      </a>
+      <div class="store-badges">
+        <a class="store-badge" href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" aria-label="Download PEP YEAH on the App Store">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.46 2.24-1.21 3.04-.81.86-2.12 1.5-3.2 1.42-.13-1.1.42-2.24 1.16-3.04C13.95 1.94 15.32 1.4 16.365 1.43zM20.5 17.3c-.62 1.36-.92 1.97-1.72 3.18-1.12 1.7-2.7 3.82-4.66 3.84-1.74.02-2.19-1.13-4.55-1.12-2.36.01-2.86 1.14-4.6 1.12-1.96-.02-3.45-1.93-4.57-3.63C-1.6 17.05-1.84 11.4 1.05 8.5c1.65-1.66 4.1-1.92 5.62-.95 1.04.66 1.41.95 2.66.95 1.24 0 1.5-.34 2.7-.97 1.05-.55 3.34-1 4.96.49 3.21 2.91 1.66 7.96-1.49 9.28z"/></svg>
+          <span><small>Download on the</small>App Store</span>
+        </a>
+        <span class="store-badge store-badge-soon" aria-disabled="true" title="Coming soon on Google Play">
+          <svg width="20" height="22" viewBox="0 0 24 26" aria-hidden="true"><path d="M1 1.5l12.6 11.5L1 24.5c-.4-.3-.6-.8-.6-1.4V2.9c0-.6.2-1.1.6-1.4z" fill="#9AA3AF"/><path d="M17.8 8.8L13.6 13 1 1.5c.4-.3 1-.4 1.6-.1l15.2 7.4z" fill="#C2C8D0"/><path d="M17.8 17.2L2.6 24.6c-.6.3-1.2.2-1.6-.1L13.6 13l4.2 4.2z" fill="#7C8591"/><path d="M22.4 11.3c1.2.7 1.2 2.7 0 3.4l-4.6 2.5L13.6 13l4.2-4.2 4.6 2.5z" fill="#B0B7C0"/></svg>
+          <span><small>Coming soon on</small>Google Play</span>
+        </span>
+      </div>
     </div>
 
     <div class="guardrails">
@@ -1841,7 +1857,7 @@ footer a:hover{color:#fff}
         <img src="assets/marketing/feature-progress.png" alt="Snap your meal. See your macros. Meal photo with macro breakdown." loading="lazy" decoding="async" />
       </figure>
     </div>
-    <p class="soft-note" data-reveal data-reveal-delay="60">No pricing is shown here — subscription pricing is set in the App Store when the app launches.</p>
+    <p class="soft-note" data-reveal data-reveal-delay="60">No pricing is shown here — subscription pricing is shown in the App Store.</p>
   </div>
 </section>
 
@@ -1876,13 +1892,19 @@ footer a:hover{color:#fff}
 <section id="marketing-subscription">
   <div class="container">
     <div class="cta" style="padding:54px 34px" data-reveal>
-      <h2>Coming soon on the App Store</h2>
-      <p>PEP YEAH is in iOS testing. Want early access? Email <a href="mailto:support@pepyeah.com">support@pepyeah.com</a> for a TestFlight invite.</p>
+      <h2>Available now on the App Store</h2>
+      <p>Download PEP YEAH for iPhone. Android is coming soon on Google Play.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">Request TestFlight
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="store-badges">
+        <a class="store-badge" href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" aria-label="Download PEP YEAH on the App Store">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.46 2.24-1.21 3.04-.81.86-2.12 1.5-3.2 1.42-.13-1.1.42-2.24 1.16-3.04C13.95 1.94 15.32 1.4 16.365 1.43zM20.5 17.3c-.62 1.36-.92 1.97-1.72 3.18-1.12 1.7-2.7 3.82-4.66 3.84-1.74.02-2.19-1.13-4.55-1.12-2.36.01-2.86 1.14-4.6 1.12-1.96-.02-3.45-1.93-4.57-3.63C-1.6 17.05-1.84 11.4 1.05 8.5c1.65-1.66 4.1-1.92 5.62-.95 1.04.66 1.41.95 2.66.95 1.24 0 1.5-.34 2.7-.97 1.05-.55 3.34-1 4.96.49 3.21 2.91 1.66 7.96-1.49 9.28z"/></svg>
+          <span><small>Download on the</small>App Store</span>
         </a>
-        <a class="btn btn-ghost" href="/support/">Support</a>
+        <span class="store-badge store-badge-soon" aria-disabled="true" title="Coming soon on Google Play">
+          <svg width="20" height="22" viewBox="0 0 24 26" aria-hidden="true"><path d="M1 1.5l12.6 11.5L1 24.5c-.4-.3-.6-.8-.6-1.4V2.9c0-.6.2-1.1.6-1.4z" fill="#9AA3AF"/><path d="M17.8 8.8L13.6 13 1 1.5c.4-.3 1-.4 1.6-.1l15.2 7.4z" fill="#C2C8D0"/><path d="M17.8 17.2L2.6 24.6c-.6.3-1.2.2-1.6-.1L13.6 13l4.2 4.2z" fill="#7C8591"/><path d="M22.4 11.3c1.2.7 1.2 2.7 0 3.4l-4.6 2.5L13.6 13l4.2-4.2 4.6 2.5z" fill="#B0B7C0"/></svg>
+          <span><small>Coming soon on</small>Google Play</span>
+        </span>
+      </div>
       </div>
       <div class="guardrails" style="justify-content:center;margin-top:14px">
         <span>18+ only</span>
@@ -1928,7 +1950,7 @@ footer a:hover{color:#fff}
     <div class="section-head">
       <div class="kicker">Inside the app</div>
       <h2>A calm interface for <em>repeat tracking.</em></h2>
-      <p>Illustrative previews across tracking, history, meals, and reports. The app UI may evolve during testing.</p>
+      <p>Illustrative previews across tracking, history, meals, and reports. The app UI may evolve with updates.</p>
     </div>
 
     <div class="gallery">
@@ -2297,7 +2319,7 @@ footer a:hover{color:#fff}
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Reports + PDF exports</li>
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Pep Coach summaries</li>
         </ul>
-        <a class="btn btn-ghost" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" style="width:100%;justify-content:center">Request TestFlight</a>
+        <a class="btn btn-ghost" href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" style="width:100%;justify-content:center">Get it on the App Store</a>
       </div>
       <div class="price featured">
         <span class="tag">FREE TRIAL (WHERE OFFERED)</span>
@@ -2310,7 +2332,7 @@ footer a:hover{color:#fff}
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Same export + reporting features</li>
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.4"><path d="M3 12l5 5L21 4"/></svg> Same Pep Coach summaries</li>
         </ul>
-        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request" style="width:100%;justify-content:center">Request TestFlight</a>
+        <a class="btn btn-primary" href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" style="width:100%;justify-content:center">Get it on the App Store</a>
       </div>
     </div>
   </div>
@@ -2345,12 +2367,18 @@ footer a:hover{color:#fff}
   <div class="container">
     <div class="cta" data-reveal>
       <h2>Ready to track your protocol — without hype?</h2>
-      <p>PEP YEAH is in iOS testing now. App Store launch is coming soon.</p>
+      <p>PEP YEAH is available now on iPhone. Android is coming soon.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="mailto:support@pepyeah.com?subject=PEP%20YEAH%20TestFlight%20Invite%20Request">Request TestFlight
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="store-badges">
+        <a class="store-badge" href="https://apps.apple.com/app/pep-yeah/id6771521607" target="_blank" rel="noopener" aria-label="Download PEP YEAH on the App Store">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.46 2.24-1.21 3.04-.81.86-2.12 1.5-3.2 1.42-.13-1.1.42-2.24 1.16-3.04C13.95 1.94 15.32 1.4 16.365 1.43zM20.5 17.3c-.62 1.36-.92 1.97-1.72 3.18-1.12 1.7-2.7 3.82-4.66 3.84-1.74.02-2.19-1.13-4.55-1.12-2.36.01-2.86 1.14-4.6 1.12-1.96-.02-3.45-1.93-4.57-3.63C-1.6 17.05-1.84 11.4 1.05 8.5c1.65-1.66 4.1-1.92 5.62-.95 1.04.66 1.41.95 2.66.95 1.24 0 1.5-.34 2.7-.97 1.05-.55 3.34-1 4.96.49 3.21 2.91 1.66 7.96-1.49 9.28z"/></svg>
+          <span><small>Download on the</small>App Store</span>
         </a>
-        <a class="btn btn-ghost" href="/support/">Support</a>
+        <span class="store-badge store-badge-soon" aria-disabled="true" title="Coming soon on Google Play">
+          <svg width="20" height="22" viewBox="0 0 24 26" aria-hidden="true"><path d="M1 1.5l12.6 11.5L1 24.5c-.4-.3-.6-.8-.6-1.4V2.9c0-.6.2-1.1.6-1.4z" fill="#9AA3AF"/><path d="M17.8 8.8L13.6 13 1 1.5c.4-.3 1-.4 1.6-.1l15.2 7.4z" fill="#C2C8D0"/><path d="M17.8 17.2L2.6 24.6c-.6.3-1.2.2-1.6-.1L13.6 13l4.2 4.2z" fill="#7C8591"/><path d="M22.4 11.3c1.2.7 1.2 2.7 0 3.4l-4.6 2.5L13.6 13l4.2-4.2 4.6 2.5z" fill="#B0B7C0"/></svg>
+          <span><small>Coming soon on</small>Google Play</span>
+        </span>
+      </div>
       </div>
       <div class="guardrails" style="justify-content:center;margin-top:14px">
         <span>18+ only</span>
